@@ -38,7 +38,9 @@ module.exports = {
     'no-unused-vars': 'off',
     'import/prefer-default-export': 'off',
     'indent': 'off',
-    '@typescript-eslint/indent': ['error', 2]
+    '@typescript-eslint/indent': ['error', 2],
+    'lines-between-class-members': 'off',
+    'max-len': 'off'
   },
 
   settings: {
