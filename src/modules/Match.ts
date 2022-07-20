@@ -12,9 +12,9 @@ export default class Match {
   public readonly visitingTeam: Team;
 
   constructor(homeTeam: Team, visitingTeam: Team, id: number) {
+    this.id = id;
     this.homeTeam = homeTeam;
     this.visitingTeam = visitingTeam;
-    this.id = id;
   }
 
   play(homeGoals: number, visitingGoals: number): void {

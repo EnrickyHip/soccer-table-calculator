@@ -1,8 +1,8 @@
 export function shuffle<T>(array: T[]): T[] {
   const newArray = array;
 
-  let currentIndex = newArray.length; let
-    randomIndex;
+  let currentIndex = newArray.length;
+  let randomIndex: number;
 
   // While there remain elements to shuffle.
   while (currentIndex !== 0) {

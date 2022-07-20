@@ -4,7 +4,9 @@ import Championship from './Championship';
 import Match from './Match';
 import { Team } from './Team';
 
-type Rounds = Match[][];
+type Round = Match[];
+export type Rounds = Round[];
+type RoundRobin = Team[][][];
 
 export default class RoundRobinChampionship extends Championship {
   public readonly teams: Team[];
@@ -18,35 +20,27 @@ export default class RoundRobinChampionship extends Championship {
     this.repeat = repeat;
 
     this.rounds = this.createRounds();
-
     console.log(JSON.stringify(this.rounds, null, 4));
   }
 
   private createRounds(): Rounds {
-    let rounds: Team[][][] = roundrobin(this.teams.length, this.teams);
+    let rounds: RoundRobin = roundrobin(this.teams.length, this.teams);
 
     if (this.repeat) {
-      const secondHalf = [...rounds];
-      secondHalf.forEach((round: Team[][]) => {
-        round.forEach((match: Team[]) => {
-          match.reverse(); // reverse the teams
-        });
-      });
-
-      rounds = [...rounds, ...secondHalf];
+      rounds = this.generateSecondHalf(rounds);
     }
 
     return this.createMatches(rounds);
   }
 
-  private createMatches(rounds: Team[][][]): Rounds {
-    return rounds.map((round: Team[][]) => {
+  private createMatches(rounds: RoundRobin): Rounds {
+    const roundsWithMatches = rounds.map((round: Team[][]) => {
       const shuffledRound = shuffle(round);
 
-      const newRound = shuffledRound.map((match: Team[]): Match => {
+      const newRound = shuffledRound.map((match: Team[]) => {
         const homeTeam = match[0];
         const visitingTeam = match[1];
-        const id = this.createMatches.length;
+        const id = this.matches.length;
 
         const newMatch = new Match(homeTeam, visitingTeam, id);
         this.matches.push(newMatch);
@@ -55,12 +49,26 @@ export default class RoundRobinChampionship extends Championship {
 
       return newRound;
     });
+
+    return roundsWithMatches;
+  }
+
+  private generateSecondHalf(firstHalf: RoundRobin): RoundRobin {
+    const secondHalf: RoundRobin = roundrobin(this.teams.length, this.teams);
+
+    secondHalf.forEach((round: Team[][]) => {
+      round.forEach((match: Team[]) => {
+        match.reverse();
+      });
+    });
+
+    return [...firstHalf, ...secondHalf];
   }
 }
 
 const championship = new RoundRobinChampionship([
-  new Team('Vasco', 'vasco', 1),
-  new Team('Flamengo', 'Flamengo', 2),
-  new Team('Fluminense', 'Fluminense', 3),
-  new Team('Botafogo', 'Botafogo', 4),
-], false);
+  new Team('Vasco', 'vasco.png', 1),
+  new Team('Flamengo', 'flamengo.png', 2),
+  new Team('Fluminense', 'fluminense.png', 3),
+  new Team('Botafogo', 'botafogo.png', 4),
+], true);
