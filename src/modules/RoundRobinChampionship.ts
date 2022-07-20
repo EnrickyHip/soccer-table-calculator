@@ -8,11 +8,11 @@ type Round = Match[];
 export type Rounds = Round[];
 type RoundRobin = Team[][][];
 
-export default class RoundRobinChampionship extends Championship {
+export default class RoundRobinTournament extends Championship {
   public readonly teams: Team[];
   public readonly matches: Match[] = [];
   public readonly rounds: Rounds;
-  private readonly repeat: boolean;
+  protected readonly repeat: boolean;
 
   constructor(teams: Team[], repeat: boolean) {
     super();
@@ -20,7 +20,7 @@ export default class RoundRobinChampionship extends Championship {
     this.repeat = repeat;
 
     this.rounds = this.createRounds();
-    console.log(JSON.stringify(this.rounds, null, 4));
+    // console.log(JSON.stringify(this.rounds, null, 4));
   }
 
   private createRounds(): Rounds {
@@ -64,11 +64,38 @@ export default class RoundRobinChampionship extends Championship {
 
     return [...firstHalf, ...secondHalf];
   }
+
+  sortTeams(): void {
+    this.teams.sort(RoundRobinTournament.compareTable);
+  }
+
+  private static compareTable(team1: Team, team2: Team) {
+    if (team1.points < team2.points) return 1; // 1 changes the position
+    if (team1.points > team2.points) return -1; // -1 still the same
+
+    if (team1.wins < team2.wins) return 1;
+    if (team1.wins > team2.wins) return -1;
+
+    if (team1.goalDifference < team2.goalDifference) return 1;
+    if (team1.goalDifference > team2.goalDifference) return -1;
+
+    if (team1.goals < team2.goals) return 1;
+    if (team1.goals > team2.goals) return -1;
+
+    if (team1.name < team2.name) return -1;
+    if (team1.name > team2.name) return 1;
+    return 0;
+  }
 }
 
-const championship = new RoundRobinChampionship([
-  new Team('Vasco', 'vasco.png', 1),
-  new Team('Flamengo', 'flamengo.png', 2),
-  new Team('Fluminense', 'fluminense.png', 3),
-  new Team('Botafogo', 'botafogo.png', 4),
+const vasco = new Team('Vasco', 'vasco.png', 1);
+const flamengo = new Team('Flamengo', 'flamengo.png', 2);
+const botafogo = new Team('Botafogo', 'botafogo.png', 3);
+const fluminense = new Team('Fluminense', 'fluminense.png', 2);
+
+const championship = new RoundRobinTournament([
+  vasco,
+  flamengo,
+  botafogo,
+  fluminense,
 ], true);

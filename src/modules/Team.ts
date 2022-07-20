@@ -15,6 +15,7 @@ export class Team {
   public losses = 0;
   public goals = 0;
   public counterGoals = 0;
+  public points = 0;
 
   constructor(name: string, shield: string, id: number) {
     this.name = name;
@@ -22,9 +23,9 @@ export class Team {
     this.id = id;
   }
 
-  get points(): number {
-    return this.wins * 3 + this.draws;
-  }
+  // get points(): number {
+  //   return this.wins * 3 + this.draws;
+  // }
 
   get goalDifference(): number {
     return this.goals - this.counterGoals;
