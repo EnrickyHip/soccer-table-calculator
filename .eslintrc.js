@@ -40,11 +40,18 @@ module.exports = {
     'indent': 'off',
     '@typescript-eslint/indent': ['error', 2],
     'lines-between-class-members': 'off',
-    'max-len': 'off'
+    'max-len': 'off',
+    'import/extensions': 'off',
+    'no-plusplus': 'off'
   },
 
   settings: {
-    'svelte3/typescript': require('typescript'),
-    'svelte3/ignore-styles': () => true
+    // 'svelte3/typescript': require('typescript'),
+    'svelte3/ignore-styles': () => true,
+    'import/resolver': {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
   },
 };

@@ -1,4 +1,4 @@
-import type { Match } from './Match';
+import type Match from './Match';
 
 interface Matches {
   [key: number]: Match;
@@ -8,6 +8,7 @@ export class Team {
   public readonly name: string;
   public readonly shield: string;
   private readonly matchesPlayedList: Matches = {};
+  public readonly id: number;
 
   public wins = 0;
   public draws = 0;
@@ -15,9 +16,10 @@ export class Team {
   public goals = 0;
   public counterGoals = 0;
 
-  constructor(name: string, shield: string) {
+  constructor(name: string, shield: string, id: number) {
     this.name = name;
     this.shield = shield;
+    this.id = id;
   }
 
   get points(): number {

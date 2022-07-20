@@ -5,7 +5,7 @@ interface Score {
   visitingTeam: number | null,
 }
 
-export class Match {
+export default class Match {
   public readonly id: number;
   public readonly homeTeam: Team;
   public score: Score = { homeTeam: null, visitingTeam: null };
