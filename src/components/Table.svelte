@@ -1,5 +1,6 @@
 <script lang="ts">
   import type RoundRobinTeam from '../modules/RoundRobinTeam';
+  import Shield from './Shield.svelte';
   export let teams: RoundRobinTeam[];
 </script>
 
@@ -25,7 +26,7 @@
 
       <td>
         <div class="team">
-          <img class="shield" src={`/images/${team.shield}`} alt={team.name}>
+          <Shield team={team} />
           {team.name}
         </div>
       </td>
@@ -47,7 +48,6 @@
   table, td, th {
     border: 1px solid;
     padding: 0.5rem;
-    margin: 2rem;
     border-color: rgb(221, 221, 221);
   }
 
@@ -66,12 +66,8 @@
 
   table {
     border-collapse: collapse;
-  }
-
-  img.shield {
-    width: 1.5rem;
-    padding-right: 0.7rem;
-    padding-left: 0.5rem;
+    overflow-x: auto;
+    margin: 2rem;
   }
 
   th.team {
