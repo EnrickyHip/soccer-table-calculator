@@ -2,42 +2,37 @@ import roundrobin from 'roundrobin';
 import { shuffle } from '../utils/shuffle';
 import Championship from './Championship';
 import Match from './Match';
-import { Team } from './Team';
+import RoundRobinTeam from './RoundRobinTeam';
 
 type Round = Match[];
-export type Rounds = Round[];
-type RoundRobin = Team[][][];
+export type RoundList = Round[];
+type RoundRobin = RoundRobinTeam[][][];
 
 export default class RoundRobinTournament extends Championship {
-  public readonly teams: Team[];
-  public readonly matches: Match[] = [];
-  public readonly rounds: Rounds;
-  protected readonly repeat: boolean;
+  public readonly teams: RoundRobinTeam[];
+  public readonly rounds: RoundList;
 
-  constructor(teams: Team[], repeat: boolean) {
-    super();
-    this.teams = teams;
-    this.repeat = repeat;
-
+  constructor(teams: RoundRobinTeam[], homeAway: boolean) {
+    super(teams, homeAway);
     this.rounds = this.createRounds();
-    // console.log(JSON.stringify(this.rounds, null, 4));
+    console.log(JSON.stringify(this.rounds, null, 4));
   }
 
-  private createRounds(): Rounds {
+  private createRounds(): RoundList {
     let rounds: RoundRobin = roundrobin(this.teams.length, this.teams);
 
-    if (this.repeat) {
+    if (this.homeAway) {
       rounds = this.generateSecondHalf(rounds);
     }
 
     return this.createMatches(rounds);
   }
 
-  private createMatches(rounds: RoundRobin): Rounds {
-    const roundsWithMatches = rounds.map((round: Team[][]) => {
+  private createMatches(rounds: RoundRobin): RoundList {
+    const roundsWithMatches = rounds.map((round: RoundRobinTeam[][]) => {
       const shuffledRound = shuffle(round);
 
-      const newRound = shuffledRound.map((match: Team[]) => {
+      const newRound = shuffledRound.map((match: RoundRobinTeam[]) => {
         const homeTeam = match[0];
         const visitingTeam = match[1];
         const id = this.matches.length;
@@ -56,8 +51,8 @@ export default class RoundRobinTournament extends Championship {
   private generateSecondHalf(firstHalf: RoundRobin): RoundRobin {
     const secondHalf: RoundRobin = roundrobin(this.teams.length, this.teams);
 
-    secondHalf.forEach((round: Team[][]) => {
-      round.forEach((match: Team[]) => {
+    secondHalf.forEach((round: RoundRobinTeam[][]) => {
+      round.forEach((match: RoundRobinTeam[]) => {
         match.reverse();
       });
     });
@@ -65,11 +60,11 @@ export default class RoundRobinTournament extends Championship {
     return [...firstHalf, ...secondHalf];
   }
 
-  sortTeams(): void {
+  public sortTeams(): void {
     this.teams.sort(RoundRobinTournament.compareTable);
   }
 
-  private static compareTable(team1: Team, team2: Team) {
+  private static compareTable(team1: RoundRobinTeam, team2: RoundRobinTeam) {
     if (team1.points < team2.points) return 1; // 1 changes the position
     if (team1.points > team2.points) return -1; // -1 still the same
 
@@ -88,10 +83,10 @@ export default class RoundRobinTournament extends Championship {
   }
 }
 
-const vasco = new Team('Vasco', 'vasco.png', 1);
-const flamengo = new Team('Flamengo', 'flamengo.png', 2);
-const botafogo = new Team('Botafogo', 'botafogo.png', 3);
-const fluminense = new Team('Fluminense', 'fluminense.png', 2);
+const vasco = new RoundRobinTeam('Vasco', 'vasco.png', 1);
+const flamengo = new RoundRobinTeam('Flamengo', 'flamengo.png', 2);
+const botafogo = new RoundRobinTeam('Botafogo', 'botafogo.png', 3);
+const fluminense = new RoundRobinTeam('Fluminense', 'fluminense.png', 2);
 
 const championship = new RoundRobinTournament([
   vasco,
