@@ -2,7 +2,7 @@ import roundrobin from 'roundrobin';
 import { shuffle } from '../utils/shuffle';
 import Championship from './Championship';
 import Match from './Match';
-import RoundRobinTeam from './RoundRobinTeam';
+import type RoundRobinTeam from './RoundRobinTeam';
 
 type Round = Match[];
 export type RoundList = Round[];
@@ -15,7 +15,7 @@ export default class RoundRobinTournament extends Championship {
   constructor(teams: RoundRobinTeam[], homeAway: boolean) {
     super(teams, homeAway);
     this.rounds = this.createRounds();
-    console.log(JSON.stringify(this.rounds, null, 4));
+    // console.log(JSON.stringify(this.rounds, null, 4));
   }
 
   private createRounds(): RoundList {
@@ -82,15 +82,3 @@ export default class RoundRobinTournament extends Championship {
     return 0;
   }
 }
-
-const vasco = new RoundRobinTeam('Vasco', 'vasco.png', 1);
-const flamengo = new RoundRobinTeam('Flamengo', 'flamengo.png', 2);
-const botafogo = new RoundRobinTeam('Botafogo', 'botafogo.png', 3);
-const fluminense = new RoundRobinTeam('Fluminense', 'fluminense.png', 2);
-
-const championship = new RoundRobinTournament([
-  vasco,
-  flamengo,
-  botafogo,
-  fluminense,
-], true);

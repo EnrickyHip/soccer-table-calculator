@@ -24,15 +24,15 @@ module.exports = {
 
   plugins: [
     '@typescript-eslint',
-    'svelte3',
+    // 'svelte3',
   ],
 
-  overrides: [
-    {
-      files: ['*.svelte'],
-      processor: 'svelte3/svelte3',
-    },
-  ],
+  // overrides: [
+  //   {
+  //     files: ['*.svelte'],
+  //     processor: 'svelte3/svelte3',
+  //   },
+  // ],
   rules: {
     'no-console': 'off',
     'no-unused-vars': 'off',
@@ -42,12 +42,13 @@ module.exports = {
     'lines-between-class-members': 'off',
     'max-len': 'off',
     'import/extensions': 'off',
-    'no-plusplus': 'off'
+    'no-plusplus': 'off',
+    'import/no-extraneous-dependencies': 'off',
   },
 
   settings: {
-    // 'svelte3/typescript': require('typescript'),
-    'svelte3/ignore-styles': () => true,
+    // 'svelte3/typescript': require('typescript'), /* remove this line to develop outside svelte files, because eslint gets faster. */
+    // 'svelte3/ignore-styles': () => true,
     'import/resolver': {
       "node": {
         "extensions": [".js", ".jsx", ".ts", ".tsx"]

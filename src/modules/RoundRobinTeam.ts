@@ -25,6 +25,7 @@ export default class RoundRobinTeam extends Team {
   }
 
   get percentage(): number {
+    if (this.points === 0) return 0;
     return (this.points * 100) / (this.matchesPlayed * 3);
   }
 
