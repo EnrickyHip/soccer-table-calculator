@@ -15,7 +15,7 @@ export default class RoundRobinTournament extends Championship {
   constructor(teams: RoundRobinTeam[], homeAway: boolean) {
     super(teams, homeAway);
     this.rounds = this.createRounds();
-    // console.log(JSON.stringify(this.rounds, null, 4));
+    this.sortTeams();
   }
 
   private createRounds(): RoundList {

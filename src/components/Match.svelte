@@ -3,13 +3,22 @@
   import GoalInput from "./GoalInput.svelte";
   import Icon from "./Icon.svelte";
   import Shield from "./Shield.svelte";
+  import roundrobin from "../store/roundrobin";
 
   export let match: Match;
   const { homeTeam, awayTeam, score } = match;
   let homeTeamGoals = score.homeTeam;
   let awayTeamGoals = score.awayTeam;
 
-  $: console.log(homeTeamGoals, awayTeamGoals);
+  function playMatch() {
+    roundrobin.playMatch(match, {
+      homeTeam: homeTeamGoals,
+      awayTeam: awayTeamGoals
+    });
+  }
+
+  $: if (homeTeamGoals !== undefined && awayTeamGoals !== undefined) playMatch();
+
 </script>
 
 <div id="match">

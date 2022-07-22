@@ -284,12 +284,6 @@ var app = (function () {
             callback();
         }
     }
-
-    const globals = (typeof window !== 'undefined'
-        ? window
-        : typeof globalThis !== 'undefined'
-            ? globalThis
-            : global);
     function outro_and_destroy_block(block, lookup) {
         transition_out(block, 1, 1, () => {
             lookup.delete(block.key);
@@ -762,7 +756,7 @@ var app = (function () {
     	let t19;
     	let t20;
     	let td10;
-    	let t21_value = /*team*/ ctx[1].percentage + "";
+    	let t21_value = /*team*/ ctx[1].percentage.toFixed(2) + "";
     	let t21;
     	let t22;
     	let current;
@@ -813,31 +807,32 @@ var app = (function () {
     			td10 = element("td");
     			t21 = text(t21_value);
     			t22 = space();
-    			attr_dev(td0, "class", "svelte-15q7u0a");
+    			attr_dev(td0, "class", "svelte-r383n5");
     			add_location(td0, file$7, 22, 6, 399);
-    			attr_dev(div, "class", "team svelte-15q7u0a");
+    			attr_dev(div, "class", "team svelte-r383n5");
     			add_location(div, file$7, 25, 8, 440);
-    			attr_dev(td1, "class", "svelte-15q7u0a");
+    			attr_dev(td1, "class", "svelte-r383n5");
     			add_location(td1, file$7, 24, 6, 427);
-    			attr_dev(td2, "class", "svelte-15q7u0a");
+    			attr_dev(td2, "class", "svelte-r383n5");
     			add_location(td2, file$7, 31, 6, 548);
-    			attr_dev(td3, "class", "svelte-15q7u0a");
+    			attr_dev(td3, "class", "svelte-r383n5");
     			add_location(td3, file$7, 32, 6, 577);
-    			attr_dev(td4, "class", "svelte-15q7u0a");
+    			attr_dev(td4, "class", "svelte-r383n5");
     			add_location(td4, file$7, 33, 6, 613);
-    			attr_dev(td5, "class", "svelte-15q7u0a");
+    			attr_dev(td5, "class", "svelte-r383n5");
     			add_location(td5, file$7, 34, 6, 640);
-    			attr_dev(td6, "class", "svelte-15q7u0a");
+    			attr_dev(td6, "class", "svelte-r383n5");
     			add_location(td6, file$7, 35, 6, 668);
-    			attr_dev(td7, "class", "svelte-15q7u0a");
+    			attr_dev(td7, "class", "svelte-r383n5");
     			add_location(td7, file$7, 36, 6, 697);
-    			attr_dev(td8, "class", "svelte-15q7u0a");
+    			attr_dev(td8, "class", "svelte-r383n5");
     			add_location(td8, file$7, 37, 6, 725);
-    			attr_dev(td9, "class", "svelte-15q7u0a");
+    			attr_dev(td9, "class", "svelte-r383n5");
     			add_location(td9, file$7, 38, 6, 760);
-    			attr_dev(td10, "class", "svelte-15q7u0a");
+    			attr_dev(td10, "id", "percentage");
+    			attr_dev(td10, "class", "svelte-r383n5");
     			add_location(td10, file$7, 39, 6, 797);
-    			attr_dev(tr, "class", "svelte-15q7u0a");
+    			attr_dev(tr, "class", "svelte-r383n5");
     			add_location(tr, file$7, 21, 4, 388);
     			this.first = tr;
     		},
@@ -896,7 +891,7 @@ var app = (function () {
     			if ((!current || dirty & /*teams*/ 1) && t15_value !== (t15_value = /*team*/ ctx[1].goals + "")) set_data_dev(t15, t15_value);
     			if ((!current || dirty & /*teams*/ 1) && t17_value !== (t17_value = /*team*/ ctx[1].counterGoals + "")) set_data_dev(t17, t17_value);
     			if ((!current || dirty & /*teams*/ 1) && t19_value !== (t19_value = /*team*/ ctx[1].goalDifference + "")) set_data_dev(t19, t19_value);
-    			if ((!current || dirty & /*teams*/ 1) && t21_value !== (t21_value = /*team*/ ctx[1].percentage + "")) set_data_dev(t21, t21_value);
+    			if ((!current || dirty & /*teams*/ 1) && t21_value !== (t21_value = /*team*/ ctx[1].percentage.toFixed(2) + "")) set_data_dev(t21, t21_value);
     		},
     		i: function intro(local) {
     			if (current) return;
@@ -1007,33 +1002,33 @@ var app = (function () {
     				each_blocks[i].c();
     			}
 
-    			attr_dev(th0, "class", "svelte-15q7u0a");
+    			attr_dev(th0, "class", "svelte-r383n5");
     			add_location(th0, file$7, 7, 6, 120);
-    			attr_dev(th1, "class", "team svelte-15q7u0a");
+    			attr_dev(th1, "class", "team svelte-r383n5");
     			add_location(th1, file$7, 8, 6, 137);
-    			attr_dev(th2, "class", "svelte-15q7u0a");
+    			attr_dev(th2, "class", "svelte-r383n5");
     			add_location(th2, file$7, 9, 6, 170);
-    			attr_dev(th3, "class", "svelte-15q7u0a");
+    			attr_dev(th3, "class", "svelte-r383n5");
     			add_location(th3, file$7, 10, 6, 189);
-    			attr_dev(th4, "class", "svelte-15q7u0a");
+    			attr_dev(th4, "class", "svelte-r383n5");
     			add_location(th4, file$7, 11, 6, 206);
-    			attr_dev(th5, "class", "svelte-15q7u0a");
+    			attr_dev(th5, "class", "svelte-r383n5");
     			add_location(th5, file$7, 12, 6, 223);
-    			attr_dev(th6, "class", "svelte-15q7u0a");
+    			attr_dev(th6, "class", "svelte-r383n5");
     			add_location(th6, file$7, 13, 6, 240);
-    			attr_dev(th7, "class", "svelte-15q7u0a");
+    			attr_dev(th7, "class", "svelte-r383n5");
     			add_location(th7, file$7, 14, 6, 257);
-    			attr_dev(th8, "class", "svelte-15q7u0a");
+    			attr_dev(th8, "class", "svelte-r383n5");
     			add_location(th8, file$7, 15, 6, 274);
-    			attr_dev(th9, "class", "svelte-15q7u0a");
+    			attr_dev(th9, "class", "svelte-r383n5");
     			add_location(th9, file$7, 16, 6, 292);
-    			attr_dev(th10, "class", "svelte-15q7u0a");
+    			attr_dev(th10, "class", "svelte-r383n5");
     			add_location(th10, file$7, 17, 6, 311);
-    			attr_dev(tr, "class", "svelte-15q7u0a");
+    			attr_dev(tr, "class", "svelte-r383n5");
     			add_location(tr, file$7, 6, 4, 109);
-    			attr_dev(thead, "class", "svelte-15q7u0a");
+    			attr_dev(thead, "class", "svelte-r383n5");
     			add_location(thead, file$7, 5, 2, 97);
-    			attr_dev(table, "class", "svelte-15q7u0a");
+    			attr_dev(table, "class", "svelte-r383n5");
     			add_location(table, file$7, 4, 0, 87);
     		},
     		l: function claim(nodes) {
@@ -1373,7 +1368,7 @@ var app = (function () {
         constructor(teams, homeAway) {
             super(teams, homeAway);
             this.rounds = this.createRounds();
-            // console.log(JSON.stringify(this.rounds, null, 4));
+            this.sortTeams();
         }
         createRounds() {
             let rounds = robin(this.teams.length, this.teams);
@@ -1467,7 +1462,7 @@ var app = (function () {
             return (this.points * 100) / (this.matchesPlayed * 3);
         }
         playMatch(match) {
-            if (!match.score.homeTeam || !match.score.awayTeam) {
+            if (match.score.homeTeam === null || match.score.awayTeam === null) {
                 delete this.matchesPlayedList[match.id];
             }
             else {
@@ -1516,7 +1511,18 @@ var app = (function () {
     ];
     var initialState = new RoundRobinTournament(teams, true);
 
-    const roundrobin = writable(initialState);
+    const roundrobinStore = writable(initialState);
+    const playMatch = (match, score) => {
+        match.play(score.homeTeam, score.awayTeam);
+        roundrobinStore.update((championship) => {
+            championship.sortTeams();
+            return championship;
+        });
+    };
+    const customStore = {
+        subscribe: roundrobinStore.subscribe,
+        playMatch,
+    };
 
     /* src\components\Button.svelte generated by Svelte v3.49.0 */
 
@@ -1915,11 +1921,9 @@ var app = (function () {
     }
 
     /* src\components\Match.svelte generated by Svelte v3.49.0 */
-
-    const { console: console_1 } = globals;
     const file$2 = "src\\components\\Match.svelte";
 
-    // (15:2) <Icon id="close">
+    // (23:2) <Icon id="close">
     function create_default_slot$1(ctx) {
     	let t;
 
@@ -1939,7 +1943,7 @@ var app = (function () {
     		block,
     		id: create_default_slot$1.name,
     		type: "slot",
-    		source: "(15:2) <Icon id=\\\"close\\\">",
+    		source: "(23:2) <Icon id=\\\"close\\\">",
     		ctx
     	});
 
@@ -2020,7 +2024,7 @@ var app = (function () {
     			create_component(shield1.$$.fragment);
     			attr_dev(div, "id", "match");
     			attr_dev(div, "class", "svelte-1nh23kh");
-    			add_location(div, file$2, 10, 0, 334);
+    			add_location(div, file$2, 18, 0, 558);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2050,7 +2054,7 @@ var app = (function () {
     			goalinput0.$set(goalinput0_changes);
     			const icon_changes = {};
 
-    			if (dirty & /*$$scope*/ 256) {
+    			if (dirty & /*$$scope*/ 512) {
     				icon_changes.$$scope = { dirty, ctx };
     			}
 
@@ -2110,10 +2114,18 @@ var app = (function () {
     	const { homeTeam, awayTeam, score } = match;
     	let homeTeamGoals = score.homeTeam;
     	let awayTeamGoals = score.awayTeam;
+
+    	function playMatch() {
+    		customStore.playMatch(match, {
+    			homeTeam: homeTeamGoals,
+    			awayTeam: awayTeamGoals
+    		});
+    	}
+
     	const writable_props = ['match'];
 
     	Object.keys($$props).forEach(key => {
-    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1.warn(`<Match> was created with unknown prop '${key}'`);
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<Match> was created with unknown prop '${key}'`);
     	});
 
     	function goalinput0_value_binding(value) {
@@ -2134,12 +2146,14 @@ var app = (function () {
     		GoalInput,
     		Icon,
     		Shield,
+    		roundrobin: customStore,
     		match,
     		homeTeam,
     		awayTeam,
     		score,
     		homeTeamGoals,
-    		awayTeamGoals
+    		awayTeamGoals,
+    		playMatch
     	});
 
     	$$self.$inject_state = $$props => {
@@ -2154,7 +2168,7 @@ var app = (function () {
 
     	$$self.$$.update = () => {
     		if ($$self.$$.dirty & /*homeTeamGoals, awayTeamGoals*/ 3) {
-    			console.log(homeTeamGoals, awayTeamGoals);
+    			if (homeTeamGoals !== undefined && awayTeamGoals !== undefined) playMatch();
     		}
     	};
 
@@ -2185,7 +2199,7 @@ var app = (function () {
     		const props = options.props || {};
 
     		if (/*match*/ ctx[4] === undefined && !('match' in props)) {
-    			console_1.warn("<Match> was created without expected prop 'match'");
+    			console.warn("<Match> was created without expected prop 'match'");
     		}
     	}
 
@@ -2763,8 +2777,8 @@ var app = (function () {
 
     function instance($$self, $$props, $$invalidate) {
     	let $roundrobin;
-    	validate_store(roundrobin, 'roundrobin');
-    	component_subscribe($$self, roundrobin, $$value => $$invalidate(0, $roundrobin = $$value));
+    	validate_store(customStore, 'roundrobin');
+    	component_subscribe($$self, customStore, $$value => $$invalidate(0, $roundrobin = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('App', slots, []);
     	const writable_props = [];
@@ -2776,7 +2790,7 @@ var app = (function () {
     	$$self.$capture_state = () => ({
     		Table,
     		Header,
-    		roundrobin,
+    		roundrobin: customStore,
     		Rounds,
     		$roundrobin
     	});

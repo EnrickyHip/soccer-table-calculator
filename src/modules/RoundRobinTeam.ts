@@ -30,7 +30,7 @@ export default class RoundRobinTeam extends Team {
   }
 
   playMatch(match: Match): void {
-    if (!match.score.homeTeam || !match.score.awayTeam) {
+    if (match.score.homeTeam === null || match.score.awayTeam === null) {
       delete this.matchesPlayedList[match.id];
     } else {
       this.matchesPlayedList[match.id] = match;

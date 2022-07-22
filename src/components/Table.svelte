@@ -39,7 +39,7 @@
       <td>{team.goals}</td>
       <td>{team.counterGoals}</td>
       <td>{team.goalDifference}</td>
-      <td>{team.percentage}</td>
+      <td id="percentage">{team.percentage.toFixed(2)}</td>
     </tr>
   {/each}
 </table>
@@ -58,6 +58,7 @@
   td {
     min-width: 2rem;
     text-align: center;
+    font-size: 1.05rem;
   }
 
   tr {
@@ -78,5 +79,9 @@
     display: flex;
     align-items: center;
     min-width: 12rem;
+  }
+
+  #percentage {
+    width: 3rem;
   }
 </style>
