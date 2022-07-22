@@ -1,8 +1,10 @@
 import type Team from './Team';
 
+export type Goal = number | null;
+
 export interface Score {
-  homeTeam: number | null,
-  awayTeam: number | null,
+  homeTeam: Goal,
+  awayTeam: Goal,
 }
 
 export default class Match {
@@ -17,7 +19,7 @@ export default class Match {
     this.awayTeam = awayTeam;
   }
 
-  play(homeGoals: number, awayGoals: number): void {
+  play(homeGoals: Goal, awayGoals: Goal): void {
     if (this.score.homeTeam === homeGoals && this.score.awayTeam === awayGoals) return;
 
     this.score = {

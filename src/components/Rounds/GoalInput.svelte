@@ -1,7 +1,11 @@
 <script lang="ts">
-  export let value: number;
+  import { createEventDispatcher } from "svelte/internal";
+  import type { Goal } from "../../modules/Match";
 
-  function handleValue(event: Event): void {
+  export let value: Goal;
+  const dispatch = createEventDispatcher();
+
+  async function handleValue(event: Event): Promise<void> {
     const target = event.target as HTMLInputElement;
     value = parseInt(target.value);
 
@@ -14,9 +18,14 @@
     if (value === 0) target.value = target.value[0];
   }
 
+  async function playMatch(event: Event): Promise<void> {
+    await handleValue(event);
+    dispatch("play-match");
+  }
+
 </script>
 
-<input {value} type="number" min="0" max="9" on:input={handleValue}>
+<input {value} type="number" min="0" max="9" on:input={playMatch}>
 
 <style>
   input {

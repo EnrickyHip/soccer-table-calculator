@@ -1,8 +1,9 @@
 <script lang="ts">
   export let classes: string;
+  export let disabled = false;
 </script>
 
-<button class={classes} on:click>
+<button {disabled} class={classes} on:click>
   <slot />
 </button>
 
@@ -14,6 +15,10 @@
 
   button:hover {
     cursor: pointer;
+  }
+
+  button:disabled {
+    cursor: default;
   }
 
   button:focus {

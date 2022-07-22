@@ -4,7 +4,7 @@ import Championship from './Championship';
 import Match from './Match';
 import type RoundRobinTeam from './RoundRobinTeam';
 
-type Round = Match[];
+export type Round = Match[];
 export type RoundList = Round[];
 type RoundRobin = RoundRobinTeam[][][];
 

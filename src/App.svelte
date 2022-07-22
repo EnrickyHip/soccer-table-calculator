@@ -1,8 +1,8 @@
 <script lang="ts">
-  import Table from './components/Table.svelte';
+  import Table from './components/Table/Table.svelte';
   import Header from './components/Header.svelte';
   import roundrobin from './store/roundrobin';
-import Rounds from './components/Rounds.svelte';
+  import Rounds from './components/Rounds/Rounds.svelte';
 </script>
 
 <Header />

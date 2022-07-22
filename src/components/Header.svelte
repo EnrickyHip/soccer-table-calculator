@@ -15,6 +15,6 @@
   }
 
   h1 {
-    color: lightgrey;
+    color: rgb(233, 233, 233);
   }
 </style>
