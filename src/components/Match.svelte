@@ -1,20 +1,24 @@
 <script lang="ts">
   import type Match from "../modules/Match";
-import GoalInput from "./GoalInput.svelte";
+  import GoalInput from "./GoalInput.svelte";
   import Icon from "./Icon.svelte";
-import Shield from "./Shield.svelte";
-  export let match: Match;
+  import Shield from "./Shield.svelte";
 
+  export let match: Match;
   const { homeTeam, awayTeam, score } = match;
+  let homeTeamGoals = score.homeTeam;
+  let awayTeamGoals = score.awayTeam;
+
+  $: console.log(homeTeamGoals, awayTeamGoals);
 </script>
 
 <div id="match">
   <Shield team={homeTeam} />
-  <GoalInput />
+  <GoalInput bind:value={homeTeamGoals} />
 
   <Icon id="close">close</Icon>
 
-  <GoalInput />
+  <GoalInput bind:value={awayTeamGoals}/>
   <Shield team={awayTeam} />
 </div>
 

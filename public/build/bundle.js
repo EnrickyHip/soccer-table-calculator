@@ -175,6 +175,9 @@ var app = (function () {
     function add_render_callback(fn) {
         render_callbacks.push(fn);
     }
+    function add_flush_callback(fn) {
+        flush_callbacks.push(fn);
+    }
     // flush() calls callbacks in this order:
     // 1. All beforeUpdate callbacks, in order: parents before children
     // 2. All bind:this callbacks, in reverse order: children before parents.
@@ -281,6 +284,12 @@ var app = (function () {
             callback();
         }
     }
+
+    const globals = (typeof window !== 'undefined'
+        ? window
+        : typeof globalThis !== 'undefined'
+            ? globalThis
+            : global);
     function outro_and_destroy_block(block, lookup) {
         transition_out(block, 1, 1, () => {
             lookup.delete(block.key);
@@ -369,6 +378,14 @@ var app = (function () {
                 throw new Error('Cannot have duplicate keys in a keyed each');
             }
             keys.add(key);
+        }
+    }
+
+    function bind(component, name, callback) {
+        const index = component.$$.props[name];
+        if (index !== undefined) {
+            component.$$.bound[index] = callback;
+            callback(component.$$.ctx[index]);
         }
     }
     function create_component(block) {
@@ -534,6 +551,10 @@ var app = (function () {
             dispatch_dev('SvelteDOMRemoveAttribute', { node, attribute });
         else
             dispatch_dev('SvelteDOMSetAttribute', { node, attribute, value });
+    }
+    function prop_dev(node, property, value) {
+        node[property] = value;
+        dispatch_dev('SvelteDOMSetProperty', { node, property, value });
     }
     function set_data_dev(text, data) {
         data = '' + data;
@@ -1781,10 +1802,12 @@ var app = (function () {
     	const block = {
     		c: function create() {
     			input = element("input");
-    			attr_dev(input, "maxlength", "1");
-    			attr_dev(input, "type", "text");
-    			attr_dev(input, "class", "svelte-fitv2i");
-    			add_location(input, file$3, 0, 0, 0);
+    			input.value = /*value*/ ctx[0];
+    			attr_dev(input, "type", "number");
+    			attr_dev(input, "min", "0");
+    			attr_dev(input, "max", "9");
+    			attr_dev(input, "class", "svelte-m9howc");
+    			add_location(input, file$3, 16, 0, 344);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1793,11 +1816,15 @@ var app = (function () {
     			insert_dev(target, input, anchor);
 
     			if (!mounted) {
-    				dispose = listen_dev(input, "change", /*change_handler*/ ctx[0], false, false, false);
+    				dispose = listen_dev(input, "input", /*handleValue*/ ctx[1], false, false, false);
     				mounted = true;
     			}
     		},
-    		p: noop,
+    		p: function update(ctx, [dirty]) {
+    			if (dirty & /*value*/ 1 && input.value !== /*value*/ ctx[0]) {
+    				prop_dev(input, "value", /*value*/ ctx[0]);
+    			}
+    		},
     		i: noop,
     		o: noop,
     		d: function destroy(detaching) {
@@ -1818,26 +1845,50 @@ var app = (function () {
     	return block;
     }
 
-    function instance$3($$self, $$props) {
+    function instance$3($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('GoalInput', slots, []);
-    	const writable_props = [];
+    	let { value } = $$props;
+
+    	function handleValue(event) {
+    		const target = event.target;
+    		$$invalidate(0, value = parseInt(target.value));
+
+    		if (isNaN(value)) {
+    			$$invalidate(0, value = null);
+    			return;
+    		}
+    		if (value > 9) $$invalidate(0, value = value % 10);
+    		if (value === 0) target.value = target.value[0];
+    	}
+
+    	const writable_props = ['value'];
 
     	Object.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<GoalInput> was created with unknown prop '${key}'`);
     	});
 
-    	function change_handler(event) {
-    		bubble.call(this, $$self, event);
+    	$$self.$$set = $$props => {
+    		if ('value' in $$props) $$invalidate(0, value = $$props.value);
+    	};
+
+    	$$self.$capture_state = () => ({ value, handleValue });
+
+    	$$self.$inject_state = $$props => {
+    		if ('value' in $$props) $$invalidate(0, value = $$props.value);
+    	};
+
+    	if ($$props && "$$inject" in $$props) {
+    		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [change_handler];
+    	return [value, handleValue];
     }
 
     class GoalInput extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$3, create_fragment$3, safe_not_equal, {});
+    		init(this, options, instance$3, create_fragment$3, safe_not_equal, { value: 0 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -1845,13 +1896,30 @@ var app = (function () {
     			options,
     			id: create_fragment$3.name
     		});
+
+    		const { ctx } = this.$$;
+    		const props = options.props || {};
+
+    		if (/*value*/ ctx[0] === undefined && !('value' in props)) {
+    			console.warn("<GoalInput> was created without expected prop 'value'");
+    		}
+    	}
+
+    	get value() {
+    		throw new Error("<GoalInput>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set value(value) {
+    		throw new Error("<GoalInput>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
     }
 
     /* src\components\Match.svelte generated by Svelte v3.49.0 */
+
+    const { console: console_1 } = globals;
     const file$2 = "src\\components\\Match.svelte";
 
-    // (12:2) <Icon id="close">
+    // (15:2) <Icon id="close">
     function create_default_slot$1(ctx) {
     	let t;
 
@@ -1871,7 +1939,7 @@ var app = (function () {
     		block,
     		id: create_default_slot$1.name,
     		type: "slot",
-    		source: "(12:2) <Icon id=\\\"close\\\">",
+    		source: "(15:2) <Icon id=\\\"close\\\">",
     		ctx
     	});
 
@@ -1883,20 +1951,33 @@ var app = (function () {
     	let shield0;
     	let t0;
     	let goalinput0;
+    	let updating_value;
     	let t1;
     	let icon;
     	let t2;
     	let goalinput1;
+    	let updating_value_1;
     	let t3;
     	let shield1;
     	let current;
 
     	shield0 = new Shield({
-    			props: { team: /*homeTeam*/ ctx[0] },
+    			props: { team: /*homeTeam*/ ctx[2] },
     			$$inline: true
     		});
 
-    	goalinput0 = new GoalInput({ $$inline: true });
+    	function goalinput0_value_binding(value) {
+    		/*goalinput0_value_binding*/ ctx[5](value);
+    	}
+
+    	let goalinput0_props = {};
+
+    	if (/*homeTeamGoals*/ ctx[0] !== void 0) {
+    		goalinput0_props.value = /*homeTeamGoals*/ ctx[0];
+    	}
+
+    	goalinput0 = new GoalInput({ props: goalinput0_props, $$inline: true });
+    	binding_callbacks.push(() => bind(goalinput0, 'value', goalinput0_value_binding));
 
     	icon = new Icon({
     			props: {
@@ -1907,10 +1988,21 @@ var app = (function () {
     			$$inline: true
     		});
 
-    	goalinput1 = new GoalInput({ $$inline: true });
+    	function goalinput1_value_binding(value) {
+    		/*goalinput1_value_binding*/ ctx[6](value);
+    	}
+
+    	let goalinput1_props = {};
+
+    	if (/*awayTeamGoals*/ ctx[1] !== void 0) {
+    		goalinput1_props.value = /*awayTeamGoals*/ ctx[1];
+    	}
+
+    	goalinput1 = new GoalInput({ props: goalinput1_props, $$inline: true });
+    	binding_callbacks.push(() => bind(goalinput1, 'value', goalinput1_value_binding));
 
     	shield1 = new Shield({
-    			props: { team: /*awayTeam*/ ctx[1] },
+    			props: { team: /*awayTeam*/ ctx[3] },
     			$$inline: true
     		});
 
@@ -1928,7 +2020,7 @@ var app = (function () {
     			create_component(shield1.$$.fragment);
     			attr_dev(div, "id", "match");
     			attr_dev(div, "class", "svelte-1nh23kh");
-    			add_location(div, file$2, 7, 0, 213);
+    			add_location(div, file$2, 10, 0, 334);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1947,13 +2039,31 @@ var app = (function () {
     			current = true;
     		},
     		p: function update(ctx, [dirty]) {
+    			const goalinput0_changes = {};
+
+    			if (!updating_value && dirty & /*homeTeamGoals*/ 1) {
+    				updating_value = true;
+    				goalinput0_changes.value = /*homeTeamGoals*/ ctx[0];
+    				add_flush_callback(() => updating_value = false);
+    			}
+
+    			goalinput0.$set(goalinput0_changes);
     			const icon_changes = {};
 
-    			if (dirty & /*$$scope*/ 16) {
+    			if (dirty & /*$$scope*/ 256) {
     				icon_changes.$$scope = { dirty, ctx };
     			}
 
     			icon.$set(icon_changes);
+    			const goalinput1_changes = {};
+
+    			if (!updating_value_1 && dirty & /*awayTeamGoals*/ 2) {
+    				updating_value_1 = true;
+    				goalinput1_changes.value = /*awayTeamGoals*/ ctx[1];
+    				add_flush_callback(() => updating_value_1 = false);
+    			}
+
+    			goalinput1.$set(goalinput1_changes);
     		},
     		i: function intro(local) {
     			if (current) return;
@@ -1998,14 +2108,26 @@ var app = (function () {
     	validate_slots('Match', slots, []);
     	let { match } = $$props;
     	const { homeTeam, awayTeam, score } = match;
+    	let homeTeamGoals = score.homeTeam;
+    	let awayTeamGoals = score.awayTeam;
     	const writable_props = ['match'];
 
     	Object.keys($$props).forEach(key => {
-    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<Match> was created with unknown prop '${key}'`);
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1.warn(`<Match> was created with unknown prop '${key}'`);
     	});
 
+    	function goalinput0_value_binding(value) {
+    		homeTeamGoals = value;
+    		$$invalidate(0, homeTeamGoals);
+    	}
+
+    	function goalinput1_value_binding(value) {
+    		awayTeamGoals = value;
+    		$$invalidate(1, awayTeamGoals);
+    	}
+
     	$$self.$$set = $$props => {
-    		if ('match' in $$props) $$invalidate(2, match = $$props.match);
+    		if ('match' in $$props) $$invalidate(4, match = $$props.match);
     	};
 
     	$$self.$capture_state = () => ({
@@ -2015,24 +2137,42 @@ var app = (function () {
     		match,
     		homeTeam,
     		awayTeam,
-    		score
+    		score,
+    		homeTeamGoals,
+    		awayTeamGoals
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ('match' in $$props) $$invalidate(2, match = $$props.match);
+    		if ('match' in $$props) $$invalidate(4, match = $$props.match);
+    		if ('homeTeamGoals' in $$props) $$invalidate(0, homeTeamGoals = $$props.homeTeamGoals);
+    		if ('awayTeamGoals' in $$props) $$invalidate(1, awayTeamGoals = $$props.awayTeamGoals);
     	};
 
     	if ($$props && "$$inject" in $$props) {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [homeTeam, awayTeam, match];
+    	$$self.$$.update = () => {
+    		if ($$self.$$.dirty & /*homeTeamGoals, awayTeamGoals*/ 3) {
+    			console.log(homeTeamGoals, awayTeamGoals);
+    		}
+    	};
+
+    	return [
+    		homeTeamGoals,
+    		awayTeamGoals,
+    		homeTeam,
+    		awayTeam,
+    		match,
+    		goalinput0_value_binding,
+    		goalinput1_value_binding
+    	];
     }
 
     class Match extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$2, create_fragment$2, safe_not_equal, { match: 2 });
+    		init(this, options, instance$2, create_fragment$2, safe_not_equal, { match: 4 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -2044,8 +2184,8 @@ var app = (function () {
     		const { ctx } = this.$$;
     		const props = options.props || {};
 
-    		if (/*match*/ ctx[2] === undefined && !('match' in props)) {
-    			console.warn("<Match> was created without expected prop 'match'");
+    		if (/*match*/ ctx[4] === undefined && !('match' in props)) {
+    			console_1.warn("<Match> was created without expected prop 'match'");
     		}
     	}
 
