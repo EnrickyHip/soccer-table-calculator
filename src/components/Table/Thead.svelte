@@ -24,8 +24,6 @@
   }
 
   th {
-    border: 1px solid;
     padding: 0.5rem;
-    border-color: rgb(221, 221, 221);
   }
 </style>

@@ -16,8 +16,6 @@
 <style>
   table {
     padding: 0.3rem;
-    border-color: rgb(221, 221, 221);
-    border-collapse: collapse;
     overflow-x: auto;
     margin: 2rem;
   }

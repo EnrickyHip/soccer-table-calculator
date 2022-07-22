@@ -18,10 +18,10 @@ export default class RoundRobinTournament extends Championship {
 
   private createRounds(): RoundList {
     let rounds: RoundRobin = roundrobin(this.teams.length, this.teams);
-    rounds = shuffle(rounds);
+    // rounds = shuffle(rounds);
 
     if (this.homeAway) {
-      rounds = RoundRobinTournament.generateSecondHalf(rounds);
+      rounds = this.generateSecondHalf(rounds);
     }
 
     return this.createMatches(rounds);
@@ -47,8 +47,8 @@ export default class RoundRobinTournament extends Championship {
     return roundsWithMatches;
   }
 
-  private static generateSecondHalf(firstHalf: RoundRobin): RoundRobin {
-    const secondHalf: RoundRobin = JSON.parse(JSON.stringify(firstHalf));
+  private generateSecondHalf(firstHalf: RoundRobin): RoundRobin {
+    const secondHalf: RoundRobin = roundrobin(this.teams.length, this.teams);
 
     secondHalf.forEach((round: RoundRobinTeam[][]) => {
       round.forEach((match: RoundRobinTeam[]) => {

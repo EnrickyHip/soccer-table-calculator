@@ -4,6 +4,7 @@ var app = (function () {
     'use strict';
 
     function noop() { }
+    const identity = x => x;
     function assign(tar, src) {
         // @ts-ignore
         for (const k in src)
@@ -105,8 +106,60 @@ var app = (function () {
     function null_to_empty(value) {
         return value == null ? '' : value;
     }
+
+    const is_client = typeof window !== 'undefined';
+    let now = is_client
+        ? () => window.performance.now()
+        : () => Date.now();
+    let raf = is_client ? cb => requestAnimationFrame(cb) : noop;
+
+    const tasks = new Set();
+    function run_tasks(now) {
+        tasks.forEach(task => {
+            if (!task.c(now)) {
+                tasks.delete(task);
+                task.f();
+            }
+        });
+        if (tasks.size !== 0)
+            raf(run_tasks);
+    }
+    /**
+     * Creates a new task that runs on each raf frame
+     * until it returns a falsy value or is aborted
+     */
+    function loop(callback) {
+        let task;
+        if (tasks.size === 0)
+            raf(run_tasks);
+        return {
+            promise: new Promise(fulfill => {
+                tasks.add(task = { c: callback, f: fulfill });
+            }),
+            abort() {
+                tasks.delete(task);
+            }
+        };
+    }
     function append(target, node) {
         target.appendChild(node);
+    }
+    function get_root_for_style(node) {
+        if (!node)
+            return document;
+        const root = node.getRootNode ? node.getRootNode() : node.ownerDocument;
+        if (root && root.host) {
+            return root;
+        }
+        return node.ownerDocument;
+    }
+    function append_empty_stylesheet(node) {
+        const style_element = element('style');
+        append_stylesheet(get_root_for_style(node), style_element);
+        return style_element.sheet;
+    }
+    function append_stylesheet(node, style) {
+        append(node.head || node, style);
     }
     function insert(target, node, anchor) {
         target.insertBefore(node, anchor || null);
@@ -146,6 +199,141 @@ var app = (function () {
         const e = document.createEvent('CustomEvent');
         e.initCustomEvent(type, bubbles, cancelable, detail);
         return e;
+    }
+
+    // we need to store the information for multiple documents because a Svelte application could also contain iframes
+    // https://github.com/sveltejs/svelte/issues/3624
+    const managed_styles = new Map();
+    let active = 0;
+    // https://github.com/darkskyapp/string-hash/blob/master/index.js
+    function hash(str) {
+        let hash = 5381;
+        let i = str.length;
+        while (i--)
+            hash = ((hash << 5) - hash) ^ str.charCodeAt(i);
+        return hash >>> 0;
+    }
+    function create_style_information(doc, node) {
+        const info = { stylesheet: append_empty_stylesheet(node), rules: {} };
+        managed_styles.set(doc, info);
+        return info;
+    }
+    function create_rule(node, a, b, duration, delay, ease, fn, uid = 0) {
+        const step = 16.666 / duration;
+        let keyframes = '{\n';
+        for (let p = 0; p <= 1; p += step) {
+            const t = a + (b - a) * ease(p);
+            keyframes += p * 100 + `%{${fn(t, 1 - t)}}\n`;
+        }
+        const rule = keyframes + `100% {${fn(b, 1 - b)}}\n}`;
+        const name = `__svelte_${hash(rule)}_${uid}`;
+        const doc = get_root_for_style(node);
+        const { stylesheet, rules } = managed_styles.get(doc) || create_style_information(doc, node);
+        if (!rules[name]) {
+            rules[name] = true;
+            stylesheet.insertRule(`@keyframes ${name} ${rule}`, stylesheet.cssRules.length);
+        }
+        const animation = node.style.animation || '';
+        node.style.animation = `${animation ? `${animation}, ` : ''}${name} ${duration}ms linear ${delay}ms 1 both`;
+        active += 1;
+        return name;
+    }
+    function delete_rule(node, name) {
+        const previous = (node.style.animation || '').split(', ');
+        const next = previous.filter(name
+            ? anim => anim.indexOf(name) < 0 // remove specific animation
+            : anim => anim.indexOf('__svelte') === -1 // remove all Svelte animations
+        );
+        const deleted = previous.length - next.length;
+        if (deleted) {
+            node.style.animation = next.join(', ');
+            active -= deleted;
+            if (!active)
+                clear_rules();
+        }
+    }
+    function clear_rules() {
+        raf(() => {
+            if (active)
+                return;
+            managed_styles.forEach(info => {
+                const { stylesheet } = info;
+                let i = stylesheet.cssRules.length;
+                while (i--)
+                    stylesheet.deleteRule(i);
+                info.rules = {};
+            });
+            managed_styles.clear();
+        });
+    }
+
+    function create_animation(node, from, fn, params) {
+        if (!from)
+            return noop;
+        const to = node.getBoundingClientRect();
+        if (from.left === to.left && from.right === to.right && from.top === to.top && from.bottom === to.bottom)
+            return noop;
+        const { delay = 0, duration = 300, easing = identity, 
+        // @ts-ignore todo: should this be separated from destructuring? Or start/end added to public api and documentation?
+        start: start_time = now() + delay, 
+        // @ts-ignore todo:
+        end = start_time + duration, tick = noop, css } = fn(node, { from, to }, params);
+        let running = true;
+        let started = false;
+        let name;
+        function start() {
+            if (css) {
+                name = create_rule(node, 0, 1, duration, delay, easing, css);
+            }
+            if (!delay) {
+                started = true;
+            }
+        }
+        function stop() {
+            if (css)
+                delete_rule(node, name);
+            running = false;
+        }
+        loop(now => {
+            if (!started && now >= start_time) {
+                started = true;
+            }
+            if (started && now >= end) {
+                tick(1, 0);
+                stop();
+            }
+            if (!running) {
+                return false;
+            }
+            if (started) {
+                const p = now - start_time;
+                const t = 0 + 1 * easing(p / duration);
+                tick(t, 1 - t);
+            }
+            return true;
+        });
+        start();
+        tick(0, 1);
+        return stop;
+    }
+    function fix_position(node) {
+        const style = getComputedStyle(node);
+        if (style.position !== 'absolute' && style.position !== 'fixed') {
+            const { width, height } = style;
+            const a = node.getBoundingClientRect();
+            node.style.position = 'absolute';
+            node.style.width = width;
+            node.style.height = height;
+            add_transform(node, a);
+        }
+    }
+    function add_transform(node, a) {
+        const b = node.getBoundingClientRect();
+        if (a.left !== b.left || a.top !== b.top) {
+            const style = getComputedStyle(node);
+            const transform = style.transform === 'none' ? '' : style.transform;
+            node.style.transform = `${transform} translate(${a.left - b.left}px, ${a.top - b.top}px)`;
+        }
     }
 
     let current_component;
@@ -312,6 +500,10 @@ var app = (function () {
         transition_out(block, 1, 1, () => {
             lookup.delete(block.key);
         });
+    }
+    function fix_and_outro_and_destroy_block(block, lookup) {
+        block.f();
+        outro_and_destroy_block(block, lookup);
     }
     function update_keyed_each(old_blocks, dirty, get_key, dynamic, ctx, list, lookup, node, destroy, create_each_block, next, get_context) {
         let o = old_blocks.length;
@@ -682,30 +874,30 @@ var app = (function () {
     			t19 = space();
     			th10 = element("th");
     			th10.textContent = "%";
-    			attr_dev(th0, "class", "svelte-1a6f7n1");
+    			attr_dev(th0, "class", "svelte-jxte3u");
     			add_location(th0, file$c, 2, 4, 19);
-    			attr_dev(th1, "class", "team svelte-1a6f7n1");
+    			attr_dev(th1, "class", "team svelte-jxte3u");
     			add_location(th1, file$c, 3, 4, 34);
-    			attr_dev(th2, "class", "svelte-1a6f7n1");
+    			attr_dev(th2, "class", "svelte-jxte3u");
     			add_location(th2, file$c, 4, 4, 65);
-    			attr_dev(th3, "class", "svelte-1a6f7n1");
+    			attr_dev(th3, "class", "svelte-jxte3u");
     			add_location(th3, file$c, 5, 4, 82);
-    			attr_dev(th4, "class", "svelte-1a6f7n1");
+    			attr_dev(th4, "class", "svelte-jxte3u");
     			add_location(th4, file$c, 6, 4, 97);
-    			attr_dev(th5, "class", "svelte-1a6f7n1");
+    			attr_dev(th5, "class", "svelte-jxte3u");
     			add_location(th5, file$c, 7, 4, 112);
-    			attr_dev(th6, "class", "svelte-1a6f7n1");
+    			attr_dev(th6, "class", "svelte-jxte3u");
     			add_location(th6, file$c, 8, 4, 127);
-    			attr_dev(th7, "class", "svelte-1a6f7n1");
+    			attr_dev(th7, "class", "svelte-jxte3u");
     			add_location(th7, file$c, 9, 4, 142);
-    			attr_dev(th8, "class", "svelte-1a6f7n1");
+    			attr_dev(th8, "class", "svelte-jxte3u");
     			add_location(th8, file$c, 10, 4, 157);
-    			attr_dev(th9, "class", "svelte-1a6f7n1");
+    			attr_dev(th9, "class", "svelte-jxte3u");
     			add_location(th9, file$c, 11, 4, 173);
-    			attr_dev(th10, "class", "svelte-1a6f7n1");
+    			attr_dev(th10, "class", "svelte-jxte3u");
     			add_location(th10, file$c, 12, 4, 190);
     			add_location(tr, file$c, 1, 2, 10);
-    			attr_dev(thead, "class", "svelte-1a6f7n1");
+    			attr_dev(thead, "class", "svelte-jxte3u");
     			add_location(thead, file$c, 0, 0, 0);
     		},
     		l: function claim(nodes) {
@@ -903,6 +1095,32 @@ var app = (function () {
     	}
     }
 
+    function cubicOut(t) {
+        const f = t - 1.0;
+        return f * f * f + 1.0;
+    }
+
+    function flip(node, { from, to }, params = {}) {
+        const style = getComputedStyle(node);
+        const transform = style.transform === 'none' ? '' : style.transform;
+        const [ox, oy] = style.transformOrigin.split(' ').map(parseFloat);
+        const dx = (from.left + from.width * ox / to.width) - (to.left + ox);
+        const dy = (from.top + from.height * oy / to.height) - (to.top + oy);
+        const { delay = 0, duration = (d) => Math.sqrt(d) * 120, easing = cubicOut } = params;
+        return {
+            delay,
+            duration: is_function(duration) ? duration(Math.sqrt(dx * dx + dy * dy)) : duration,
+            easing,
+            css: (t, u) => {
+                const x = u * dx;
+                const y = u * dy;
+                const sx = t + u * from.width / to.width;
+                const sy = t + u * from.height / to.height;
+                return `transform: ${transform} translate(${x}px, ${y}px) scale(${sx}, ${sy});`;
+            }
+        };
+    }
+
     /* src\components\Table\Tbody.svelte generated by Svelte v3.49.0 */
     const file$a = "src\\components\\Table\\Tbody.svelte";
 
@@ -913,7 +1131,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (11:2) {#each teams as team, index (team.id)}
+    // (12:2) {#each teams as team, index (team.id)}
     function create_each_block$1(key_1, ctx) {
     	let tr;
     	let td0;
@@ -963,6 +1181,8 @@ var app = (function () {
     	let t21_value = /*team*/ ctx[6].percentage.toFixed(2) + "";
     	let t21;
     	let t22;
+    	let rect;
+    	let stop_animation = noop;
     	let current;
 
     	shield = new Shield({
@@ -1011,38 +1231,38 @@ var app = (function () {
     			td10 = element("td");
     			t21 = text(t21_value);
     			t22 = space();
-    			attr_dev(td0, "class", "svelte-kp1qx8");
+    			attr_dev(td0, "class", "svelte-nxp6i6");
     			toggle_class(td0, "first", /*first*/ ctx[1](/*index*/ ctx[8]));
     			toggle_class(td0, "classified", /*classified*/ ctx[2](/*index*/ ctx[8]));
     			toggle_class(td0, "classified2", /*classified2*/ ctx[3](/*index*/ ctx[8]));
     			toggle_class(td0, "classified3", /*classified3*/ ctx[4](/*index*/ ctx[8]));
     			toggle_class(td0, "relegated", /*relegated*/ ctx[5](/*index*/ ctx[8]));
-    			add_location(td0, file$a, 12, 6, 421);
-    			attr_dev(div, "class", "team svelte-kp1qx8");
-    			add_location(div, file$a, 23, 8, 702);
-    			attr_dev(td1, "class", "svelte-kp1qx8");
-    			add_location(td1, file$a, 22, 6, 689);
-    			attr_dev(td2, "class", "svelte-kp1qx8");
-    			add_location(td2, file$a, 29, 6, 805);
-    			attr_dev(td3, "class", "svelte-kp1qx8");
-    			add_location(td3, file$a, 30, 6, 834);
-    			attr_dev(td4, "class", "svelte-kp1qx8");
-    			add_location(td4, file$a, 31, 6, 870);
-    			attr_dev(td5, "class", "svelte-kp1qx8");
-    			add_location(td5, file$a, 32, 6, 897);
-    			attr_dev(td6, "class", "svelte-kp1qx8");
-    			add_location(td6, file$a, 33, 6, 925);
-    			attr_dev(td7, "class", "svelte-kp1qx8");
-    			add_location(td7, file$a, 34, 6, 954);
-    			attr_dev(td8, "class", "svelte-kp1qx8");
-    			add_location(td8, file$a, 35, 6, 982);
-    			attr_dev(td9, "class", "svelte-kp1qx8");
-    			add_location(td9, file$a, 36, 6, 1017);
+    			add_location(td0, file$a, 13, 6, 492);
+    			attr_dev(div, "class", "team svelte-nxp6i6");
+    			add_location(div, file$a, 24, 8, 773);
+    			attr_dev(td1, "class", "svelte-nxp6i6");
+    			add_location(td1, file$a, 23, 6, 760);
+    			attr_dev(td2, "class", "svelte-nxp6i6");
+    			add_location(td2, file$a, 30, 6, 876);
+    			attr_dev(td3, "class", "svelte-nxp6i6");
+    			add_location(td3, file$a, 31, 6, 905);
+    			attr_dev(td4, "class", "svelte-nxp6i6");
+    			add_location(td4, file$a, 32, 6, 941);
+    			attr_dev(td5, "class", "svelte-nxp6i6");
+    			add_location(td5, file$a, 33, 6, 968);
+    			attr_dev(td6, "class", "svelte-nxp6i6");
+    			add_location(td6, file$a, 34, 6, 996);
+    			attr_dev(td7, "class", "svelte-nxp6i6");
+    			add_location(td7, file$a, 35, 6, 1025);
+    			attr_dev(td8, "class", "svelte-nxp6i6");
+    			add_location(td8, file$a, 36, 6, 1053);
+    			attr_dev(td9, "class", "svelte-nxp6i6");
+    			add_location(td9, file$a, 37, 6, 1088);
     			attr_dev(td10, "id", "percentage");
-    			attr_dev(td10, "class", "svelte-kp1qx8");
-    			add_location(td10, file$a, 37, 6, 1054);
-    			attr_dev(tr, "class", "svelte-kp1qx8");
-    			add_location(tr, file$a, 11, 4, 410);
+    			attr_dev(td10, "class", "svelte-nxp6i6");
+    			add_location(td10, file$a, 38, 6, 1125);
+    			attr_dev(tr, "class", "svelte-nxp6i6");
+    			add_location(tr, file$a, 12, 4, 450);
     			this.first = tr;
     		},
     		m: function mount(target, anchor) {
@@ -1123,6 +1343,17 @@ var app = (function () {
     			if ((!current || dirty & /*teams*/ 1) && t19_value !== (t19_value = /*team*/ ctx[6].goalDifference + "")) set_data_dev(t19, t19_value);
     			if ((!current || dirty & /*teams*/ 1) && t21_value !== (t21_value = /*team*/ ctx[6].percentage.toFixed(2) + "")) set_data_dev(t21, t21_value);
     		},
+    		r: function measure() {
+    			rect = tr.getBoundingClientRect();
+    		},
+    		f: function fix() {
+    			fix_position(tr);
+    			stop_animation();
+    		},
+    		a: function animate() {
+    			stop_animation();
+    			stop_animation = create_animation(tr, rect, flip, { duration: 450 });
+    		},
     		i: function intro(local) {
     			if (current) return;
     			transition_in(shield.$$.fragment, local);
@@ -1142,7 +1373,7 @@ var app = (function () {
     		block,
     		id: create_each_block$1.name,
     		type: "each",
-    		source: "(11:2) {#each teams as team, index (team.id)}",
+    		source: "(12:2) {#each teams as team, index (team.id)}",
     		ctx
     	});
 
@@ -1173,7 +1404,7 @@ var app = (function () {
     				each_blocks[i].c();
     			}
 
-    			add_location(tbody, file$a, 9, 0, 357);
+    			add_location(tbody, file$a, 10, 0, 397);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1192,8 +1423,10 @@ var app = (function () {
     				each_value = /*teams*/ ctx[0];
     				validate_each_argument(each_value);
     				group_outros();
+    				for (let i = 0; i < each_blocks.length; i += 1) each_blocks[i].r();
     				validate_each_keys(ctx, each_value, get_each_context$1, get_key);
-    				each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value, each_1_lookup, tbody, outro_and_destroy_block, create_each_block$1, null, get_each_context$1);
+    				each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value, each_1_lookup, tbody, fix_and_outro_and_destroy_block, create_each_block$1, null, get_each_context$1);
+    				for (let i = 0; i < each_blocks.length; i += 1) each_blocks[i].a();
     				check_outros();
     			}
     		},
@@ -1254,6 +1487,7 @@ var app = (function () {
 
     	$$self.$capture_state = () => ({
     		Shield,
+    		flip,
     		teams,
     		first,
     		classified,
@@ -1324,7 +1558,7 @@ var app = (function () {
     			create_component(thead.$$.fragment);
     			t = space();
     			create_component(tbody.$$.fragment);
-    			attr_dev(table, "class", "svelte-10qekuo");
+    			attr_dev(table, "class", "svelte-1liewqs");
     			add_location(table, file$9, 5, 0, 122);
     		},
     		l: function claim(nodes) {
@@ -1631,9 +1865,9 @@ var app = (function () {
         }
         createRounds() {
             let rounds = robin(this.teams.length, this.teams);
-            rounds = shuffle(rounds);
+            // rounds = shuffle(rounds);
             if (this.homeAway) {
-                rounds = RoundRobinTournament.generateSecondHalf(rounds);
+                rounds = this.generateSecondHalf(rounds);
             }
             return this.createMatches(rounds);
         }
@@ -1652,8 +1886,8 @@ var app = (function () {
             });
             return roundsWithMatches;
         }
-        static generateSecondHalf(firstHalf) {
-            const secondHalf = JSON.parse(JSON.stringify(firstHalf));
+        generateSecondHalf(firstHalf) {
+            const secondHalf = robin(this.teams.length, this.teams);
             secondHalf.forEach((round) => {
                 round.forEach((match) => {
                     match.reverse();
@@ -2172,7 +2406,7 @@ var app = (function () {
     			t3 = space();
     			create_component(shield1.$$.fragment);
     			attr_dev(div, "class", "match svelte-jcz3p5");
-    			add_location(div, file$5, 16, 0, 477);
+    			add_location(div, file$5, 16, 0, 479);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -3298,7 +3532,7 @@ var app = (function () {
     			create_component(table.$$.fragment);
     			t1 = space();
     			create_component(rounds.$$.fragment);
-    			attr_dev(main, "class", "svelte-1863om6");
+    			attr_dev(main, "class", "svelte-18jhcds");
     			add_location(main, file, 8, 0, 248);
     		},
     		l: function claim(nodes) {

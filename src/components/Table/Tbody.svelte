@@ -1,6 +1,7 @@
 <script lang="ts">
     import type RoundRobinTeam from '../../API/RoundRobinTeam';
     import Shield from '../Shield.svelte';
+    import { flip } from 'svelte/animate';
     export let teams: RoundRobinTeam[];
 
     const first = (index: number) => index + 1 === 1;
@@ -12,7 +13,7 @@
 
 <tbody>
   {#each teams as team, index (team.id)}
-    <tr>
+    <tr animate:flip={{duration: 450}}>
       <td
         class:first={first(index)}
         class:classified={classified(index)}
@@ -44,6 +45,10 @@
 </tbody>
 
 <style>
+
+  tr:nth-child(2n-1) {
+    background-color: rgb(245, 245, 245);
+  }
   .first {
     background-color: rgb(47, 189, 189);
     color: white;
@@ -70,10 +75,8 @@
   td {
     min-width: 2rem;
     text-align: center;
-    font-size: 1rem;
-    border: 1px solid;
+    font-size: 1rem;;
     padding: 0.3rem;
-    border-color: rgb(221, 221, 221);
   }
 
   tr {
