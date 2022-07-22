@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type RoundRobinTeam from '../../modules/RoundRobinTeam';
+  import type RoundRobinTeam from '../../API/RoundRobinTeam';
   import Thead from './Thead.svelte';
   import Tbody from './Tbody.svelte';
 

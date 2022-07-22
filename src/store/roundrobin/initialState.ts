@@ -1,5 +1,5 @@
-import RoundRobinTournament from '../../modules/RoundRobinChampionship';
-import RoundRobinTeam from '../../modules/RoundRobinTeam';
+import RoundRobinTournament from '../../API/RoundRobinChampionship';
+import RoundRobinTeam from '../../API/RoundRobinTeam';
 
 const teams = [
   new RoundRobinTeam('Vasco', 'vasco.png', 1),

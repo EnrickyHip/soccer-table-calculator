@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte/internal";
-  import type { Goal } from "../../modules/Match";
+  import type { Goal } from "../../API/types/types";
 
   export let value: Goal;
   const dispatch = createEventDispatcher();

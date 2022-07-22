@@ -1,10 +1,6 @@
 import type Match from './Match';
 import Team from './Team';
 
-export interface MatchesList {
-  [key: number]: Match;
-}
-
 export default class RoundRobinTeam extends Team {
   public wins = 0;
   public draws = 0;

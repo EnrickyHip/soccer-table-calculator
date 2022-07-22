@@ -3,10 +3,7 @@ import { shuffle } from '../utils/shuffle';
 import Championship from './Championship';
 import Match from './Match';
 import type RoundRobinTeam from './RoundRobinTeam';
-
-export type Round = Match[];
-export type RoundList = Round[];
-type RoundRobin = RoundRobinTeam[][][];
+import type { RoundList, RoundRobin } from './types/types';
 
 export default class RoundRobinTournament extends Championship {
   public readonly teams: RoundRobinTeam[];
@@ -14,6 +11,7 @@ export default class RoundRobinTournament extends Championship {
 
   constructor(teams: RoundRobinTeam[], homeAway: boolean) {
     super(teams, homeAway);
+    this.teams = teams;
     this.rounds = this.createRounds();
     this.sortTeams();
   }

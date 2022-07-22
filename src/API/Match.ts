@@ -1,11 +1,5 @@
 import type Team from './Team';
-
-export type Goal = number | null;
-
-export interface Score {
-  homeTeam: Goal,
-  awayTeam: Goal,
-}
+import type { Score, Goal } from './types/types';
 
 export default class Match {
   public readonly id: number;

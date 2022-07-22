@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
-import type { Score } from '../../modules/Match';
-import type Match from '../../modules/Match';
+import type { Score } from '../../API/types/types';
+import type Match from '../../API/Match';
 import initialState from './initialState';
 
 const roundrobinStore = writable(initialState);

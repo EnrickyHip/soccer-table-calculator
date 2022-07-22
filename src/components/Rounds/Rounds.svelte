@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { RoundList } from "../../modules/RoundRobinChampionship";
+  import type { RoundList } from "../../API/types/types";;
   import Matches from "./Matches.svelte";
   import RoundsHeader from "./RoundsHeader.svelte";
 

@@ -680,28 +680,28 @@ var app = (function () {
     			th10 = element("th");
     			th10.textContent = "%";
     			attr_dev(th0, "class", "svelte-1a6f7n1");
-    			add_location(th0, file$c, 2, 4, 21);
+    			add_location(th0, file$c, 2, 4, 19);
     			attr_dev(th1, "class", "team svelte-1a6f7n1");
-    			add_location(th1, file$c, 3, 4, 37);
+    			add_location(th1, file$c, 3, 4, 34);
     			attr_dev(th2, "class", "svelte-1a6f7n1");
-    			add_location(th2, file$c, 4, 4, 69);
+    			add_location(th2, file$c, 4, 4, 65);
     			attr_dev(th3, "class", "svelte-1a6f7n1");
-    			add_location(th3, file$c, 5, 4, 87);
+    			add_location(th3, file$c, 5, 4, 82);
     			attr_dev(th4, "class", "svelte-1a6f7n1");
-    			add_location(th4, file$c, 6, 4, 103);
+    			add_location(th4, file$c, 6, 4, 97);
     			attr_dev(th5, "class", "svelte-1a6f7n1");
-    			add_location(th5, file$c, 7, 4, 119);
+    			add_location(th5, file$c, 7, 4, 112);
     			attr_dev(th6, "class", "svelte-1a6f7n1");
-    			add_location(th6, file$c, 8, 4, 135);
+    			add_location(th6, file$c, 8, 4, 127);
     			attr_dev(th7, "class", "svelte-1a6f7n1");
-    			add_location(th7, file$c, 9, 4, 151);
+    			add_location(th7, file$c, 9, 4, 142);
     			attr_dev(th8, "class", "svelte-1a6f7n1");
-    			add_location(th8, file$c, 10, 4, 167);
+    			add_location(th8, file$c, 10, 4, 157);
     			attr_dev(th9, "class", "svelte-1a6f7n1");
-    			add_location(th9, file$c, 11, 4, 184);
+    			add_location(th9, file$c, 11, 4, 173);
     			attr_dev(th10, "class", "svelte-1a6f7n1");
-    			add_location(th10, file$c, 12, 4, 202);
-    			add_location(tr, file$c, 1, 2, 11);
+    			add_location(th10, file$c, 12, 4, 190);
+    			add_location(tr, file$c, 1, 2, 10);
     			attr_dev(thead, "class", "svelte-1a6f7n1");
     			add_location(thead, file$c, 0, 0, 0);
     		},
@@ -993,32 +993,32 @@ var app = (function () {
     			t21 = text(t21_value);
     			t22 = space();
     			attr_dev(td0, "class", "svelte-2uzr8r");
-    			add_location(td0, file$a, 7, 6, 152);
+    			add_location(td0, file$a, 7, 6, 157);
     			attr_dev(div, "class", "team svelte-2uzr8r");
-    			add_location(div, file$a, 10, 8, 193);
+    			add_location(div, file$a, 10, 8, 201);
     			attr_dev(td1, "class", "svelte-2uzr8r");
-    			add_location(td1, file$a, 9, 6, 180);
+    			add_location(td1, file$a, 9, 6, 187);
     			attr_dev(td2, "class", "svelte-2uzr8r");
-    			add_location(td2, file$a, 16, 6, 296);
+    			add_location(td2, file$a, 16, 6, 310);
     			attr_dev(td3, "class", "svelte-2uzr8r");
-    			add_location(td3, file$a, 17, 6, 325);
+    			add_location(td3, file$a, 17, 6, 340);
     			attr_dev(td4, "class", "svelte-2uzr8r");
-    			add_location(td4, file$a, 18, 6, 361);
+    			add_location(td4, file$a, 18, 6, 377);
     			attr_dev(td5, "class", "svelte-2uzr8r");
-    			add_location(td5, file$a, 19, 6, 388);
+    			add_location(td5, file$a, 19, 6, 405);
     			attr_dev(td6, "class", "svelte-2uzr8r");
-    			add_location(td6, file$a, 20, 6, 416);
+    			add_location(td6, file$a, 20, 6, 434);
     			attr_dev(td7, "class", "svelte-2uzr8r");
-    			add_location(td7, file$a, 21, 6, 445);
+    			add_location(td7, file$a, 21, 6, 464);
     			attr_dev(td8, "class", "svelte-2uzr8r");
-    			add_location(td8, file$a, 22, 6, 473);
+    			add_location(td8, file$a, 22, 6, 493);
     			attr_dev(td9, "class", "svelte-2uzr8r");
-    			add_location(td9, file$a, 23, 6, 508);
+    			add_location(td9, file$a, 23, 6, 529);
     			attr_dev(td10, "id", "percentage");
     			attr_dev(td10, "class", "svelte-2uzr8r");
-    			add_location(td10, file$a, 24, 6, 545);
+    			add_location(td10, file$a, 24, 6, 567);
     			attr_dev(tr, "class", "svelte-2uzr8r");
-    			add_location(tr, file$a, 6, 4, 141);
+    			add_location(tr, file$a, 6, 4, 145);
     			this.first = tr;
     		},
     		m: function mount(target, anchor) {
@@ -1128,7 +1128,7 @@ var app = (function () {
     				each_blocks[i].c();
     			}
 
-    			add_location(tbody, file$a, 4, 0, 88);
+    			add_location(tbody, file$a, 4, 0, 90);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1567,6 +1567,7 @@ var app = (function () {
     class RoundRobinTournament extends Championship {
         constructor(teams, homeAway) {
             super(teams, homeAway);
+            this.teams = teams;
             this.rounds = this.createRounds();
             this.sortTeams();
         }
@@ -2283,7 +2284,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (7:2) {#each rounds[roundNumber - 1] as match (match.id)}
+    // (8:2) {#each rounds[roundNumber - 1] as match (match.id)}
     function create_each_block(key_1, ctx) {
     	let first;
     	let match;
@@ -2332,7 +2333,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(7:2) {#each rounds[roundNumber - 1] as match (match.id)}",
+    		source: "(8:2) {#each rounds[roundNumber - 1] as match (match.id)}",
     		ctx
     	});
 
@@ -2365,7 +2366,7 @@ var app = (function () {
 
     			attr_dev(div, "id", "matches");
     			attr_dev(div, "class", "svelte-8kjf7r");
-    			add_location(div, file$4, 5, 0, 111);
+    			add_location(div, file$4, 6, 0, 114);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2661,7 +2662,7 @@ var app = (function () {
     /* src\components\Rounds\RoundsHeader.svelte generated by Svelte v3.49.0 */
     const file$2 = "src\\components\\Rounds\\RoundsHeader.svelte";
 
-    // (13:4) <Icon id="button-back">
+    // (14:4) <Icon id="button-back">
     function create_default_slot_3(ctx) {
     	let t;
 
@@ -2681,14 +2682,14 @@ var app = (function () {
     		block,
     		id: create_default_slot_3.name,
     		type: "slot",
-    		source: "(13:4) <Icon id=\\\"button-back\\\">",
+    		source: "(14:4) <Icon id=\\\"button-back\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (12:2) <Button disabled={roundNumber === 1} on:click={prevRound} classes="round-button">
+    // (13:2) <Button disabled={roundNumber === 1} on:click={prevRound} classes="round-button">
     function create_default_slot_2(ctx) {
     	let icon;
     	let current;
@@ -2737,14 +2738,14 @@ var app = (function () {
     		block,
     		id: create_default_slot_2.name,
     		type: "slot",
-    		source: "(12:2) <Button disabled={roundNumber === 1} on:click={prevRound} classes=\\\"round-button\\\">",
+    		source: "(13:2) <Button disabled={roundNumber === 1} on:click={prevRound} classes=\\\"round-button\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (23:4) <Icon id="button-forward">
+    // (24:4) <Icon id="button-forward">
     function create_default_slot_1(ctx) {
     	let t;
 
@@ -2764,14 +2765,14 @@ var app = (function () {
     		block,
     		id: create_default_slot_1.name,
     		type: "slot",
-    		source: "(23:4) <Icon id=\\\"button-forward\\\">",
+    		source: "(24:4) <Icon id=\\\"button-forward\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (22:2) <Button disabled={roundNumber === rounds.length} on:click={nextRound} classes="round-button">
+    // (23:2) <Button disabled={roundNumber === rounds.length} on:click={nextRound} classes="round-button">
     function create_default_slot(ctx) {
     	let icon;
     	let current;
@@ -2820,7 +2821,7 @@ var app = (function () {
     		block,
     		id: create_default_slot.name,
     		type: "slot",
-    		source: "(22:2) <Button disabled={roundNumber === rounds.length} on:click={nextRound} classes=\\\"round-button\\\">",
+    		source: "(23:2) <Button disabled={roundNumber === rounds.length} on:click={nextRound} classes=\\\"round-button\\\">",
     		ctx
     	});
 
@@ -2872,10 +2873,10 @@ var app = (function () {
     			t2 = text("º round");
     			t3 = space();
     			create_component(button1.$$.fragment);
-    			add_location(span, file$2, 17, 2, 527);
+    			add_location(span, file$2, 18, 2, 530);
     			attr_dev(div, "id", "header");
     			attr_dev(div, "class", "svelte-1gqixxx");
-    			add_location(div, file$2, 10, 0, 349);
+    			add_location(div, file$2, 11, 0, 352);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -3059,7 +3060,7 @@ var app = (function () {
     			create_component(matches.$$.fragment);
     			attr_dev(section, "id", "rounds");
     			attr_dev(section, "class", "svelte-1fjq24n");
-    			add_location(section, file$1, 16, 0, 359);
+    			add_location(section, file$1, 17, 0, 362);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");

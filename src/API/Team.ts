@@ -1,5 +1,5 @@
 import type Match from './Match';
-import type { MatchesList } from './RoundRobinTeam';
+import type { MatchesList } from './types/types';
 
 export default abstract class Team {
   public readonly id: number;

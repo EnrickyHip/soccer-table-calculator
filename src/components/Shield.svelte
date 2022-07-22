@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type Team from "../modules/Team";
+  import type Team from "../API/Team";
   export let team: Team;
 </script>
 

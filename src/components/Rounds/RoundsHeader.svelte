@@ -2,7 +2,7 @@
   import Button from "../Button.svelte";
   import Icon from "../Icon.svelte";
   import { createEventDispatcher } from "svelte/internal"
-  import type { RoundList } from "../../modules/RoundRobinChampionship";
+  import type { RoundList } from "../../API/types/types";;
 
   export let roundNumber: number;
   export let rounds: RoundList;

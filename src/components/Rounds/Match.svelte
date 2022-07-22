@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type Match from "../../modules/Match";
+  import type Match from "../../API/Match";
   import GoalInput from "./GoalInput.svelte";
   import Icon from "../Icon.svelte";
   import Shield from "../Shield.svelte";

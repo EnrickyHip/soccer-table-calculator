@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { RoundList } from "../../modules/RoundRobinChampionship";
+  import type { RoundList } from "../../API/types/types";;
   import Match from "./Match.svelte";
 
   export let rounds: RoundList;
