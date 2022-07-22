@@ -15,14 +15,11 @@
 
 <style>
   table {
-    border: 1px solid;
-    padding: 0.5rem;
+    padding: 0.3rem;
     border-color: rgb(221, 221, 221);
-  }
-
-  table {
     border-collapse: collapse;
     overflow-x: auto;
     margin: 2rem;
   }
+
 </style>

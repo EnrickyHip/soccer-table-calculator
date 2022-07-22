@@ -18,8 +18,8 @@
   }
 </script>
 
-<div id="match">
-  <Shield team={homeTeam} />
+<div class="match">
+  <Shield classes="round" team={homeTeam} />
   <GoalInput bind:value={homeTeamGoals} on:play-match={playMatch}/>
 
   <Icon id="close">
@@ -27,14 +27,15 @@
   </Icon>
 
   <GoalInput bind:value={awayTeamGoals} on:play-match={playMatch}/>
-  <Shield team={awayTeam} />
+  <Shield classes="round" team={awayTeam} />
 </div>
 
 <style>
-  #match {
+  .match {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
   }
 </style>

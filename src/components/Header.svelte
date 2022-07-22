@@ -1,7 +1,7 @@
 
 <header>
   <nav>
-    <h1>Championship</h1>
+    <h1>Campeonato Brasileiro</h1>
   </nav>
 </header>
 

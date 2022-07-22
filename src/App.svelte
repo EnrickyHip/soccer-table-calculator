@@ -16,5 +16,6 @@
   main {
     display: flex;
     justify-content: space-evenly;
+    overflow-x: auto;
   }
 </style>
