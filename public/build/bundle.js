@@ -1865,9 +1865,9 @@ var app = (function () {
         }
         createRounds() {
             let rounds = robin(this.teams.length, this.teams);
-            // rounds = shuffle(rounds);
+            rounds = shuffle(rounds);
             if (this.homeAway) {
-                rounds = this.generateSecondHalf(rounds);
+                rounds = RoundRobinTournament.generateSecondHalf(rounds);
             }
             return this.createMatches(rounds);
         }
@@ -1886,12 +1886,14 @@ var app = (function () {
             });
             return roundsWithMatches;
         }
-        generateSecondHalf(firstHalf) {
-            const secondHalf = robin(this.teams.length, this.teams);
-            secondHalf.forEach((round) => {
-                round.forEach((match) => {
-                    match.reverse();
+        static generateSecondHalf(firstHalf) {
+            const secondHalf = firstHalf.map((round) => {
+                const newRound = round.map((match) => {
+                    const newMatch = [...match];
+                    newMatch.reverse();
+                    return newMatch;
                 });
+                return newRound;
             });
             return [...firstHalf, ...secondHalf];
         }

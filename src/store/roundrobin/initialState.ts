@@ -1,4 +1,4 @@
-import RoundRobinTournament from '../../API/RoundRobinChampionship';
+import RoundRobinTournament from '../../API/RoundRobinTournament';
 import RoundRobinTeam from '../../API/RoundRobinTeam';
 
 const teams = [
