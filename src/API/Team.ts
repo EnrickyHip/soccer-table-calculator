@@ -5,7 +5,7 @@ export default abstract class Team {
   public readonly id: number;
   public readonly name: string;
   public readonly shield: string;
-  protected matchesPlayedList: MatchesList = {};
+  protected matchesPlayedObject: MatchesList = {};
 
   constructor(name: string, shield: string, id: number) {
     this.name = name;

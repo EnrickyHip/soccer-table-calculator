@@ -4,6 +4,8 @@
     import { flip } from 'svelte/animate';
     export let teams: RoundRobinTeam[];
 
+    $: console.log(teams[0].getLastMatches());
+
     const first = (index: number) => index === 1;
     const classified = (index: number) => index > 1 && index < 6;
     const classified2 = (index: number) => index > 4 && index < 7;
@@ -40,11 +42,39 @@
       <td>{team.counterGoals}</td>
       <td>{team.goalDifference}</td>
       <td id="percentage">{team.percentage.toFixed(2)}</td>
+      <td id="last-matches">
+        {#each team.getLastResults() as result}
+          <span class={result}></span>
+        {/each}
+      </td>
     </tr>
   {/each}
 </tbody>
 
 <style>
+
+  #last-matches {
+    width: 4rem;
+  }
+
+  #last-matches span {
+    display: inline-block;
+    border-radius: 50%;
+    height: 7px;
+    width: 7px;
+    margin: 0 2px;
+  }
+
+  .win {
+    background-color: rgb(40, 148, 36);
+  }
+
+  .draw {
+    background-color: rgb(172, 172, 172);
+  }
+  .lose {
+    background-color: rgb(255, 0, 0);
+  }
 
   tr:nth-child(2n-1) {
     background-color: rgb(245, 245, 245);

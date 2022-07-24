@@ -30,6 +30,7 @@
     <th class="sortable" on:click={(event) => sortBy(sort.counterGoals, event)}>CG</th>
     <th class="sortable" on:click={(event) => sortBy(sort.difference, event)}>DIF</th>
     <th class="sortable" on:click={(event) => sortBy(sort.percentage, event)}>%</th>
+    <th>last matches</th>
   </tr>
 </thead>
 

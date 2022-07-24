@@ -1,5 +1,6 @@
 import type Match from './Match';
 import Team from './Team';
+import type { Result } from './types/types';
 
 export default class RoundRobinTeam extends Team {
   public wins = 0;
@@ -9,7 +10,7 @@ export default class RoundRobinTeam extends Team {
   public counterGoals = 0;
   public index = 0;
 
-  get points(): number {
+  get points() {
     return this.wins * 3 + this.draws;
   }
 
@@ -18,7 +19,7 @@ export default class RoundRobinTeam extends Team {
   }
 
   get matchesPlayed(): number {
-    return Object.keys(this.matchesPlayedList).length;
+    return this.matchesPlayedArray.length;
   }
 
   get percentage(): number {
@@ -26,31 +27,57 @@ export default class RoundRobinTeam extends Team {
     return (this.points * 100) / (this.matchesPlayed * 3);
   }
 
+  private get matchesPlayedArray(): Match[] {
+    return Object.values(this.matchesPlayedObject);
+  }
+
   playMatch(match: Match): void {
     if (match.score.homeTeam === null || match.score.awayTeam === null) {
-      delete this.matchesPlayedList[match.id];
+      delete this.matchesPlayedObject[match.id];
     } else {
-      this.matchesPlayedList[match.id] = match;
+      this.matchesPlayedObject[match.id] = match;
     }
 
     this.updateInfo();
   }
 
+  private getSelfScore(match: Match): number[] {
+    const { score, homeTeam } = match;
+
+    const selfScore = homeTeam.name === this.name
+      ? score.homeTeam as number
+      : score.awayTeam as number;
+
+    const otherScore = homeTeam.name === this.name
+      ? score.awayTeam as number
+      : score.homeTeam as number;
+
+    return [selfScore, otherScore];
+  }
+
+  getLastMatches(): Match[] {
+    return this.matchesPlayedArray.slice(-5);
+  }
+
+  getLastResults(): Result[] {
+    const lastMatches = this.getLastMatches();
+
+    return lastMatches.map((match) => {
+      const [selfScore, otherScore] = this.getSelfScore(match);
+
+      if (selfScore > otherScore) return 'win';
+      if (otherScore > selfScore) return 'lose';
+      return 'draw';
+    });
+  }
+
   private updateInfo(): void {
     this.resetValues();
 
-    const matchesPlayedArray = Object.values(this.matchesPlayedList);
+    const { matchesPlayedArray } = this;
 
     matchesPlayedArray.forEach((match: Match) => {
-      const { score, homeTeam } = match;
-
-      const selfScore = homeTeam.name === this.name
-        ? score.homeTeam as number
-        : score.awayTeam as number;
-
-      const otherScore = homeTeam.name === this.name
-        ? score.awayTeam as number
-        : score.homeTeam as number;
+      const [selfScore, otherScore] = this.getSelfScore(match);
 
       this.goals += selfScore;
       this.counterGoals += otherScore;
