@@ -44,6 +44,7 @@ module.exports = {
     'import/extensions': 'off',
     'no-plusplus': 'off',
     'import/no-extraneous-dependencies': 'off',
+    'arrow-body-style': 'off',
   },
 
   settings: {

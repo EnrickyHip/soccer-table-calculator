@@ -63,3 +63,7 @@ button:focus {
 .match + .match {
   border-top: 1px solid rgb(221, 221, 221);
 }
+
+.sort {
+  background-color: rgb(209, 209, 209);
+}

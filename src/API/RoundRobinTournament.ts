@@ -1,5 +1,5 @@
 import roundrobin from 'roundrobin';
-import { shuffle } from '../utils/shuffle';
+import { shuffle } from './utils/shuffle';
 import Championship from './Championship';
 import Match from './Match';
 import type RoundRobinTeam from './RoundRobinTeam';
@@ -61,6 +61,10 @@ export default class RoundRobinTournament extends Championship {
 
   public sortTeams(): void {
     this.teams.sort(RoundRobinTournament.compareTable);
+    this.teams.forEach((team, index) => {
+      // eslint-disable-next-line no-param-reassign
+      team.index = index + 1;
+    });
   }
 
   private static compareTable(team1: RoundRobinTeam, team2: RoundRobinTeam) {

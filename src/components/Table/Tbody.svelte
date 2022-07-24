@@ -4,24 +4,24 @@
     import { flip } from 'svelte/animate';
     export let teams: RoundRobinTeam[];
 
-    const first = (index: number) => index + 1 === 1;
-    const classified = (index: number) => index + 1 > 1 && index < 5;
-    const classified2 = (index: number) => index + 1 > 4 && index < 6;
-    const classified3 = (index: number) => index + 1 > 6 && index < 12;
-    const relegated = (index: number) => index + 1 > 16;
+    const first = (index: number) => index === 1;
+    const classified = (index: number) => index > 1 && index < 6;
+    const classified2 = (index: number) => index > 4 && index < 7;
+    const classified3 = (index: number) => index > 6 && index < 13;
+    const relegated = (index: number) => index > 16;
 </script>
 
 <tbody>
-  {#each teams as team, index (team.id)}
+  {#each teams as team (team.id)}
     <tr animate:flip={{duration: 450}}>
       <td
-        class:first={first(index)}
-        class:classified={classified(index)}
-        class:classified2={classified2(index)}
-        class:classified3={classified3(index)}
-        class:relegated={relegated(index)}
+        class:first={first(team.index)}
+        class:classified={classified(team.index)}
+        class:classified2={classified2(team.index)}
+        class:classified3={classified3(team.index)}
+        class:relegated={relegated(team.index)}
       >
-        {index + 1}
+        {team.index}
       </td>
 
       <td>

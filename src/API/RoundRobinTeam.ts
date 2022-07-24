@@ -7,6 +7,7 @@ export default class RoundRobinTeam extends Team {
   public losses = 0;
   public goals = 0;
   public counterGoals = 0;
+  public index = 0;
 
   get points(): number {
     return this.wins * 3 + this.draws;
