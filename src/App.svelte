@@ -5,7 +5,7 @@
   import Rounds from './components/Rounds/Rounds.svelte';
 </script>
 
-<Header />
+<Header>Campeonato Brasileiro Série A (Brazil)</Header>
 
 <main>
   <Table teams={$roundrobin.teams} />

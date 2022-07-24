@@ -1,7 +1,9 @@
 
 <header>
   <nav>
-    <h1>Campeonato Brasileiro</h1>
+    <h1>
+      <slot />
+    </h1>
   </nav>
 </header>
 

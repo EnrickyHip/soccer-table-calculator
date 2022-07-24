@@ -4,8 +4,6 @@
     import { flip } from 'svelte/animate';
     export let teams: RoundRobinTeam[];
 
-    $: console.log(teams[0].getLastMatches());
-
     const first = (index: number) => index === 1;
     const classified = (index: number) => index > 1 && index < 6;
     const classified2 = (index: number) => index > 4 && index < 7;
