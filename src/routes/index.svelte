@@ -1,11 +1,16 @@
 <script lang="ts">
-  import Table from './components/Table/Table.svelte';
-  import Header from './components/Header.svelte';
-  import roundrobin from './store/roundrobin';
-  import Rounds from './components/Rounds/Rounds.svelte';
+  import Table from '../components/Table/Table.svelte';
+  import Header from '../components/Header.svelte';
+  import roundrobin from '../store/roundrobin';
+  import Rounds from '../components/Rounds/Rounds.svelte';
 </script>
 
+
 <Header>Campeonato Brasileiro Série A (Brazil)</Header>
+
+<svelte:head>
+  <title>Brazilian Soccer Table Simulator</title>
+</svelte:head>
 
 <main>
   <Table teams={$roundrobin.teams} />

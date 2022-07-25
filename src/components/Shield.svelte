@@ -4,7 +4,7 @@
   export let classes = "";
 </script>
 
-<img class={classes} src={`./images/${team.shield}`} alt={team.name}>
+<img class={classes} src={`/images/${team.shield}`} alt={team.name}>
 
 <style>
   img {

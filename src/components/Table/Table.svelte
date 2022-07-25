@@ -3,7 +3,7 @@
   import type RoundRobinTeam from '../../API/RoundRobinTeam';
   import Thead from './Thead.svelte';
   import Tbody from './Tbody.svelte';
-  import type { SortEventDetail } from '../../global';
+  import type { SortEventDetail } from '../../app';
   import { index } from './sort';
 
   export let teams: RoundRobinTeam[];

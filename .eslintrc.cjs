@@ -37,7 +37,7 @@ module.exports = {
     'no-console': 'off',
     'no-unused-vars': 'off',
     'import/prefer-default-export': 'off',
-    'indent': 'off',
+    indent: 'off',
     '@typescript-eslint/indent': ['error', 2],
     'lines-between-class-members': 'off',
     'max-len': 'off',
@@ -51,9 +51,9 @@ module.exports = {
     // 'svelte3/typescript': require('typescript'), /* remove this line to develop outside svelte files, because eslint gets faster. */
     // 'svelte3/ignore-styles': () => true,
     'import/resolver': {
-      "node": {
-        "extensions": [".js", ".jsx", ".ts", ".tsx"]
-      }
-    }
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      },
+    },
   },
 };

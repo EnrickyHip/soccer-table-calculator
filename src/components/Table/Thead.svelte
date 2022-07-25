@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte/internal";
-  import type { SortFn } from "../../global";
+  import type { SortFn } from "../../app";
   import * as sort from "./sort";
 
   const dispatch = createEventDispatcher();
