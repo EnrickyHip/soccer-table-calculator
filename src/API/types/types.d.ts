@@ -15,3 +15,16 @@ export interface Score {
   homeTeam: Goal,
   awayTeam: Goal,
 }
+
+export interface MinMax {
+  min: number;
+  max: number;
+}
+
+export interface ClassificationInterface {
+  classified1?: MinMax;
+  classified2?: MinMax;
+  classified3?: MinMax;
+  playoff?: MinMax;
+  relegated?: number;
+}

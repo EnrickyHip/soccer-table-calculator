@@ -2,24 +2,32 @@
     import type RoundRobinTeam from '../../API/RoundRobinTeam';
     import Shield from '../Shield.svelte';
     import { flip } from 'svelte/animate';
+    import { getStore } from "../../store/roundrobin";
+    import type { ClassificationClass } from 'src/app';
+
     export let teams: RoundRobinTeam[];
 
-    const first = (index: number) => index === 1;
-    const classified = (index: number) => index > 1 && index < 6;
-    const classified2 = (index: number) => index > 4 && index < 7;
-    const classified3 = (index: number) => index > 6 && index < 13;
-    const relegated = (index: number) => index > 16;
+    const tournament = getStore();
+    const { classification } = $tournament;
+
+    function getClassification(index: number): ClassificationClass {
+      if (!classification) return "";
+      if (index === 1) return "first";
+      if (classification.isClassified1(index)) return "classified1"
+      if (classification.isClassified2(index)) return "classified2"
+      if (classification.isClassified3(index)) return "classified3"
+      if (classification.onPlayoff(index)) return "playoff"
+      if (classification.isRelegated(index)) return "relegated"
+      return "";
+    }
+
 </script>
 
 <tbody>
   {#each teams as team (team.id)}
-    <tr animate:flip={{duration: 600}}>
+    <tr animate:flip={{duration: 600, delay: 2}}>
       <td
-        class:first={first(team.index)}
-        class:classified={classified(team.index)}
-        class:classified2={classified2(team.index)}
-        class:classified3={classified3(team.index)}
-        class:relegated={relegated(team.index)}
+        class={getClassification(team.index)}
       >
         {team.index}
       </td>
@@ -82,17 +90,22 @@
     color: white;
   }
 
-  .classified {
+  .classified1 {
     background-color: rgb(69, 202, 113);
     color: white;
   }
   .classified2 {
-    background-color: rgb(29, 173, 77);
+    background-color: rgb(21, 134, 59);
     color: white;
   }
 
   .classified3 {
-    background-color: rgb(122, 21, 43);
+    background-color: rgb(126, 21, 44);
+    color: white;
+  }
+
+  .playoff {
+    background-color: rgb(160, 0, 0);
     color: white;
   }
 

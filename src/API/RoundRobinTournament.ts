@@ -3,15 +3,18 @@ import { shuffle } from './utils/shuffle';
 import Tournament from './Tournament';
 import Match from './Match';
 import type RoundRobinTeam from './RoundRobinTeam';
-import type { RoundList, RoundRobin } from './types/types';
+import type { ClassificationInterface, RoundList, RoundRobin } from './types/types';
+import Classification from './Classification';
 
 export default class RoundRobinTournament extends Tournament {
   public readonly teams: RoundRobinTeam[];
   public readonly rounds: RoundList;
+  public readonly classification: Classification;
 
-  constructor(teams: RoundRobinTeam[], homeAway: boolean) {
+  constructor(teams: RoundRobinTeam[], homeAway: boolean, classification: ClassificationInterface) {
     super(teams, homeAway);
     this.teams = teams;
+    this.classification = new Classification(classification);
     this.rounds = this.createRounds();
     this.sortTeams();
   }
@@ -48,8 +51,8 @@ export default class RoundRobinTournament extends Tournament {
   }
 
   private static generateSecondHalf(firstHalf: RoundRobin): RoundRobin {
-    const secondHalf = firstHalf.map((round: RoundRobinTeam[][]) => {
-      const newRound = round.map((match: RoundRobinTeam[]) => {
+    const secondHalf = firstHalf.map((round) => {
+      const newRound = round.map((match) => {
         const newMatch = [...match];
         newMatch.reverse();
         return newMatch;
