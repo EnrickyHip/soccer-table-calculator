@@ -26,5 +26,5 @@ export interface ClassificationInterface {
   classified2?: MinMax;
   classified3?: MinMax;
   playoff?: MinMax;
-  relegated?: number;
+  relegated?: MinMax;
 }

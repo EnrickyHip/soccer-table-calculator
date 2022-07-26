@@ -7,33 +7,19 @@ export default class Classification {
     this.classification = classification;
   }
 
-  isClassified1(position: number) {
-    const { classified1 } = this.classification;
-    if (!classified1) return false;
-    return position >= classified1.min && position <= classified1.max;
+  isClassified(position: number, classification: keyof ClassificationInterface) {
+    const classified = this.classification[classification];
+    if (!classified) return false;
+    return position >= classified.min && position <= classified.max;
   }
 
-  isClassified2(position: number) {
-    const { classified2 } = this.classification;
-    if (!classified2) return false;
-    return position >= classified2.min && position <= classified2.max;
-  }
-
-  isClassified3(position: number) {
-    const { classified3 } = this.classification;
-    if (!classified3) return false;
-    return position >= classified3.min && position <= classified3.max;
-  }
-
-  onPlayoff(position: number) {
-    const { playoff } = this.classification;
-    if (!playoff) return false;
-    return position >= playoff.min && position <= playoff.max;
-  }
-
-  isRelegated(position: number) {
-    const { relegated } = this.classification;
-    if (!relegated) return false;
-    return position >= relegated;
+  get(position: number) {
+    if (position === 1) return 'first';
+    if (this.isClassified(position, 'classified1')) return 'classified1';
+    if (this.isClassified(position, 'classified2')) return 'classified2';
+    if (this.isClassified(position, 'classified3')) return 'classified3';
+    if (this.isClassified(position, 'playoff')) return 'playoff';
+    if (this.isClassified(position, 'relegated')) return 'relegated';
+    return '';
   }
 }

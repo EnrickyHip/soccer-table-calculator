@@ -29,7 +29,7 @@ const classification: ClassificationInterface = {
   classified1: { min: 2, max: 4 },
   classified2: { min: 5, max: 6 },
   classified3: { min: 7, max: 7 },
-  relegated: 18,
+  relegated: { min: 18, max: 20 },
 };
 
 export default new RoundRobinTournament(teams, true, classification);

@@ -7,7 +7,6 @@ import type RoundRobinTournament from './API/RoundRobinTournament';
 import type { Score } from './API/types/types';
 
 export type SortFn = (teams: RoundRobinTeam[]) => RoundRobinTeam[]
-export type ClassificationClass = '' | 'first' | 'classified1' | 'classified2' | 'classified3' | 'playoff' | 'relegated';
 export interface SortEventDetail {
   detail: {
     sortBy : SortFn

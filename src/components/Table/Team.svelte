@@ -2,26 +2,14 @@
   import type RoundRobinTeam from "src/API/RoundRobinTeam";
   import Shield from '../Shield.svelte';
   import { getStore } from "../../store/roundrobin";
-  import type { ClassificationClass } from 'src/app';
 
   export let team: RoundRobinTeam;
 
   const tournament = getStore();
-    const { classification } = $tournament;
-
-    function getClassification(position: number): ClassificationClass {
-      if (!classification) return "";
-      if (position === 1) return "first";
-      if (classification.isClassified1(position)) return "classified1"
-      if (classification.isClassified2(position)) return "classified2"
-      if (classification.isClassified3(position)) return "classified3"
-      if (classification.onPlayoff(position)) return "playoff"
-      if (classification.isRelegated(position)) return "relegated"
-      return "";
-    }
+  const { classification } = $tournament;
 </script>
 
-<td class={getClassification(team.position)}>
+<td class={classification.get(team.position)}>
   {team.position}
 </td>
 
