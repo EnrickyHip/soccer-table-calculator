@@ -1,27 +1,34 @@
 <script lang="ts">
-  import Table from '../components/Table/Table.svelte';
-  import Header from '../components/Header.svelte';
-  import roundrobin from '../store/roundrobin';
-  import Rounds from '../components/Rounds/Rounds.svelte';
+  import TournamentButton from '../components/TournamentButton.svelte';
+  import Title from '../components/Title.svelte';
+
 </script>
 
-
-<Header>Campeonato Brasileiro Série A (Brazil)</Header>
-
 <svelte:head>
-  <title>Brazilian Soccer Table Simulator</title>
+  <title>Soccer Table Calculator</title>
 </svelte:head>
 
-<main>
-  <Table teams={$roundrobin.teams} />
-  <Rounds rounds={$roundrobin.rounds} />
-</main>
+<Title>
+  Choose a Tournament to calculate
+</Title>
+
+<div>
+  <TournamentButton alt="Premier League" href="/premier_league" logo="/images/premier_league.png">
+    Premier League
+  </TournamentButton>
+
+  <TournamentButton alt="Brasileirão" href="/brasileirao" logo="/images/brasileirao.png">
+    Brasileirão
+  </TournamentButton>
+</div>
 
 <style>
-  main {
+  div {
     display: flex;
-    justify-content: space-evenly;
-    overflow-x: auto;
-    margin-top: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    justify-items: center;
+    gap: 3rem;
+    margin-top: 5rem;
   }
 </style>

@@ -1,22 +1,31 @@
 import { writable } from 'svelte/store';
+import type RoundRobinTournament from 'src/API/RoundRobinTournament';
+import type { CustomStore } from 'src/app';
 import type { Score } from '../../API/types/types';
 import type Match from '../../API/Match';
-import initialState from './initialState';
 
-const brasileirao = writable(initialState);
+let store: CustomStore;
 
-const playMatch = (match: Match, score: Score): void => {
-  match.play(score.homeTeam, score.awayTeam);
+export function createRoundRobin(tournament: RoundRobinTournament): CustomStore {
+  const tournamentStore = writable(tournament);
 
-  brasileirao.update((championship) => {
-    championship.sortTeams();
-    return championship;
-  });
-};
+  const playMatch = (match: Match, score: Score): void => {
+    match.play(score.homeTeam, score.awayTeam);
 
-const customStore = {
-  subscribe: brasileirao.subscribe,
-  playMatch,
-};
+    tournamentStore.update((storedTournament) => {
+      storedTournament.sortTeams();
+      return storedTournament;
+    });
+  };
 
-export default customStore;
+  store = {
+    subscribe: tournamentStore.subscribe,
+    playMatch,
+  };
+
+  return store;
+}
+
+export function getStore() {
+  return store;
+}

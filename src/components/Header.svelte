@@ -2,7 +2,9 @@
 <header>
   <nav>
     <h1>
-      <slot />
+      <a href="/">
+        <slot />
+      </a>
     </h1>
   </nav>
 </header>
@@ -16,7 +18,7 @@
     background-color: rgb(61, 61, 61);
   }
 
-  h1 {
-    color: rgb(233, 233, 233);
+  a {
+    color:  rgb(233, 233, 233);
   }
 </style>

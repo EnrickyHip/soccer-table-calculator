@@ -1,11 +1,11 @@
 import roundrobin from 'roundrobin';
 import { shuffle } from './utils/shuffle';
-import Championship from './Championship';
+import Tournament from './Tournament';
 import Match from './Match';
 import type RoundRobinTeam from './RoundRobinTeam';
 import type { RoundList, RoundRobin } from './types/types';
 
-export default class RoundRobinTournament extends Championship {
+export default class RoundRobinTournament extends Tournament {
   public readonly teams: RoundRobinTeam[];
   public readonly rounds: RoundList;
 

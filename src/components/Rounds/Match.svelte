@@ -3,15 +3,17 @@
   import GoalInput from "./GoalInput.svelte";
   import Icon from "../Icon.svelte";
   import Shield from "../Shield.svelte";
-  import roundrobin from "../../store/roundrobin";
+  import { getStore } from "../../store/roundrobin";
 
   export let match: Match;
+
+  const tournament = getStore();
   const { homeTeam, awayTeam, score } = match;
   let homeTeamGoals = score.homeTeam;
   let awayTeamGoals = score.awayTeam;
 
   function playMatch(): void {
-    roundrobin.playMatch(match, {
+    tournament.playMatch(match, {
       homeTeam: homeTeamGoals,
       awayTeam: awayTeamGoals
     });
