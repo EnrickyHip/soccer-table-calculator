@@ -24,10 +24,27 @@
 
 <style>
   #rounds {
-    min-width: 20%;
-    max-width: 70%;
+    width: 20%;
     border: 1px solid rgb(221, 221, 221);
     margin: 2rem;
     height: 100%;
+  }
+
+  @media (max-width: 1100px) {
+    #rounds {
+      width: 35%;
+    }
+  }
+
+  @media (max-width: 800px) {
+    #rounds {
+      width: 50%;
+    }
+  }
+
+  @media (max-width: 400px) {
+    #rounds {
+      width: 70%;
+    }
   }
 </style>

@@ -17,7 +17,6 @@
   Premier League (England)
 </Title>
 
-
 <RoundRobinContainer>
   <Table teams={$premierLeagueStore.teams} />
   <Rounds rounds={$premierLeagueStore.rounds} />

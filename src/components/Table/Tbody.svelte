@@ -13,7 +13,7 @@
 
 <tbody>
   {#each teams as team (team.id)}
-    <tr animate:flip={{duration: 450}}>
+    <tr animate:flip={{duration: 600}}>
       <td
         class:first={first(team.index)}
         class:classified={classified(team.index)}

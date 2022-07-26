@@ -18,19 +18,28 @@
   }
 
 </script>
+<div>
+  <table>
 
-<table>
+    <Thead on:sort={sort}/>
+    <Tbody {teams} />
 
-  <Thead on:sort={sort}/>
-  <Tbody {teams} />
-
-</table>
+  </table>
+</div>
 
 <style>
+  div {
+    overflow-x: auto;
+  }
   table {
     padding: 0.3rem;
-    overflow-x: auto;
     margin: 2rem;
+  }
+
+  @media (max-width: 600px) {
+  div {
+    width: 500px;
+  }
   }
 
 </style>

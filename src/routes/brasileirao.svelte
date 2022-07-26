@@ -21,3 +21,4 @@
   <Table teams={$brasileiraoStore.teams} />
   <Rounds rounds={$brasileiraoStore.rounds} />
 </RoundRobinContainer>
+

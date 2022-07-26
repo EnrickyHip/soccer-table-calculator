@@ -1,4 +1,4 @@
-import type { SortFn } from '../../global';
+import type { SortFn } from '../../app';
 
 export const index: SortFn = (teams) => {
   return teams.sort((team1, team2) => {

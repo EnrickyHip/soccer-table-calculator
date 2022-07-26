@@ -6,7 +6,8 @@
   div {
     display: flex;
     justify-content: space-evenly;
-    overflow-x: auto;
     margin-top: 1rem;
+    flex-wrap: wrap;
   }
+
 </style>
