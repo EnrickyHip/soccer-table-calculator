@@ -20,9 +20,9 @@
 
 <thead>
   <tr>
-    <th class="sortable sort" on:click={(event) => sort(sortFuncs.index, event)}>#</th>
+    <th class="sortable sort" on:click={(event) => sort(sortFuncs.position, event)}>#</th>
     <th class="team">Team</th>
-    <th class="sortable" on:click={(event) => sort(sortFuncs.index, event)}>Pts</th>
+    <th class="sortable" on:click={(event) => sort(sortFuncs.position, event)}>Pts</th>
     <th class="sortable" on:click={(event) => sort(sortFuncs.matches, event)}>M</th>
     <th class="sortable" on:click={(event) => sort(sortFuncs.wins, event)}>W</th>
     <th class="sortable" on:click={(event) => sort(sortFuncs.draws, event)}>D</th>

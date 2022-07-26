@@ -66,7 +66,7 @@ export default class RoundRobinTournament extends Tournament {
     this.teams.sort(RoundRobinTournament.compareTable);
     this.teams.forEach((team, index) => {
       // eslint-disable-next-line no-param-reassign
-      team.index = index + 1;
+      team.position = index + 1;
     });
   }
 

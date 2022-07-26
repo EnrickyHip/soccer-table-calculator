@@ -1,5 +1,4 @@
 import type { ClassificationInterface } from 'src/API/types/types';
-import Classification from '../../../API/Classification';
 import RoundRobinTournament from '../../../API/RoundRobinTournament';
 import RoundRobinTeam from '../../../API/RoundRobinTeam';
 

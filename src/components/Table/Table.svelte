@@ -4,10 +4,10 @@
   import Thead from './Thead.svelte';
   import Tbody from './Tbody.svelte';
   import type { SortEventDetail } from '../../app';
-  import { index } from '../../utils/sort';
+  import { position } from '../../utils/sort';
 
   export let teams: RoundRobinTeam[];
-  let sortAttribute = index;
+  let sortAttribute = position;
 
   function sort(event: SortEventDetail): void {
     const { sortBy } = event.detail; // sortBy é a função pra ordenar

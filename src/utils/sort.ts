@@ -1,9 +1,9 @@
 import type { SortFn } from '../app';
 
-export const index: SortFn = (teams) => {
+export const position: SortFn = (teams) => {
   return teams.sort((team1, team2) => {
-    if (team1.index > team2.index) return 1;
-    if (team1.index < team2.index) return -1;
+    if (team1.position > team2.position) return 1;
+    if (team1.position < team2.position) return -1;
     return 0;
   });
 };
@@ -69,8 +69,8 @@ export const percentage: SortFn = (teams) => {
     if (team1.percentage < team2.percentage) return 1;
     if (team1.percentage > team2.percentage) return -1;
 
-    if (team1.index > team2.index) return 1;
-    if (team1.index < team2.index) return -1;
+    if (team1.position > team2.position) return 1;
+    if (team1.position < team2.position) return -1;
     return 0;
   });
 };

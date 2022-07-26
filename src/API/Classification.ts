@@ -7,33 +7,33 @@ export default class Classification {
     this.classification = classification;
   }
 
-  isClassified1(index: number) {
+  isClassified1(position: number) {
     const { classified1 } = this.classification;
     if (!classified1) return false;
-    return index >= classified1.min && index <= classified1.max;
+    return position >= classified1.min && position <= classified1.max;
   }
 
-  isClassified2(index: number) {
+  isClassified2(position: number) {
     const { classified2 } = this.classification;
     if (!classified2) return false;
-    return index >= classified2.min && index <= classified2.max;
+    return position >= classified2.min && position <= classified2.max;
   }
 
-  isClassified3(index: number) {
+  isClassified3(position: number) {
     const { classified3 } = this.classification;
     if (!classified3) return false;
-    return index >= classified3.min && index <= classified3.max;
+    return position >= classified3.min && position <= classified3.max;
   }
 
-  onPlayoff(index: number) {
+  onPlayoff(position: number) {
     const { playoff } = this.classification;
     if (!playoff) return false;
-    return index >= playoff.min && index <= playoff.max;
+    return position >= playoff.min && position <= playoff.max;
   }
 
-  isRelegated(index: number) {
+  isRelegated(position: number) {
     const { relegated } = this.classification;
     if (!relegated) return false;
-    return index >= relegated;
+    return position >= relegated;
   }
 }
