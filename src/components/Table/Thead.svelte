@@ -1,36 +1,34 @@
 <script lang="ts">
-  import { createEventDispatcher } from "svelte/internal";
-  import type { SortFn } from "../../app";
-  import * as sortFuncs from "../../utils/sort";
+import type RoundRobinTeam from "src/API/RoundRobinTeam";
 
+  import { createEventDispatcher } from "svelte/internal";
   const dispatch = createEventDispatcher();
 
-  const sort = (sortBy: SortFn, event: Event) => {
+  function sort(attribute: keyof RoundRobinTeam, event: Event) {
     const target = event.target as HTMLTableCellElement;
     const oldSort = document.querySelector(".sort") as HTMLTableCellElement;
 
     oldSort.classList.remove("sort");
-    target.classList.toggle("sort");
+    target.classList.add("sort");
 
-    // sortBy é a função de sort passada por parâmetro.
-    dispatch("sort", { sortBy });
+    dispatch("sort", { attribute });
   }
 
 </script>
 
 <thead>
   <tr>
-    <th class="sortable sort" on:click={(event) => sort(sortFuncs.position, event)}>#</th>
+    <th class="sortable sort" on:click={(event) => sort("position", event)}>#</th>
     <th class="team">Team</th>
-    <th class="sortable" on:click={(event) => sort(sortFuncs.position, event)}>Pts</th>
-    <th class="sortable" on:click={(event) => sort(sortFuncs.matches, event)}>M</th>
-    <th class="sortable" on:click={(event) => sort(sortFuncs.wins, event)}>W</th>
-    <th class="sortable" on:click={(event) => sort(sortFuncs.draws, event)}>D</th>
-    <th class="sortable" on:click={(event) => sort(sortFuncs.losses, event)}>L</th>
-    <th class="sortable" on:click={(event) => sort(sortFuncs.goals, event)}>G</th>
-    <th class="sortable" on:click={(event) => sort(sortFuncs.counterGoals, event)}>CG</th>
-    <th class="sortable" on:click={(event) => sort(sortFuncs.difference, event)}>DIF</th>
-    <th class="sortable" on:click={(event) => sort(sortFuncs.percentage, event)}>%</th>
+    <th class="sortable" on:click={(event) => sort("position", event)}>Pts</th>
+    <th class="sortable" on:click={(event) => sort("matchesPlayed", event)}>M</th>
+    <th class="sortable" on:click={(event) => sort("wins", event)}>W</th>
+    <th class="sortable" on:click={(event) => sort("draws", event)}>D</th>
+    <th class="sortable" on:click={(event) => sort("losses", event)}>L</th>
+    <th class="sortable" on:click={(event) => sort("goals", event)}>G</th>
+    <th class="sortable" on:click={(event) => sort("counterGoals", event)}>CG</th>
+    <th class="sortable" on:click={(event) => sort("goalDifference", event)}>DIF</th>
+    <th class="sortable" on:click={(event) => sort("percentage", event)}>%</th>
     <th>last matches</th>
   </tr>
 </thead>

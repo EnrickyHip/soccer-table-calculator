@@ -6,13 +6,12 @@ import type RoundRobinTeam from './API/RoundRobinTeam';
 import type RoundRobinTournament from './API/RoundRobinTournament';
 import type { Score } from './API/types/types';
 
-export type SortFn = (teams: RoundRobinTeam[]) => RoundRobinTeam[]
 export interface SortEventDetail {
   detail: {
-    sortBy : SortFn
+    attribute : keyof RoundRobinTeam;
   }
 }
-export interface CustomStore {
+export interface RoundRobinStore {
   subscribe: (this: void, run: Subscriber<RoundRobinTournament>) => Unsubscriber;
   playMatch: (match: Match, score: Score) => void;
 }

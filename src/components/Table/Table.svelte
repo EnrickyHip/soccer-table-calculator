@@ -4,19 +4,19 @@
   import Thead from './Thead.svelte';
   import Tbody from './Tbody.svelte';
   import type { SortEventDetail } from '../../app';
-  import { position } from '../../utils/sort';
+  import { sortBy } from '../../utils/sort';
 
   export let teams: RoundRobinTeam[];
-  let sortAttribute = position;
+  let sortAttribute: keyof RoundRobinTeam; // salva o último attributo de ordenação
 
   function sort(event: SortEventDetail): void {
-    const { sortBy } = event.detail; // sortBy é a função pra ordenar
-    sortAttribute = sortBy; //sortAttribute salva a função de ordenação
-    teams = sortBy(teams); //executa a ordenaçãp
+    const { attribute } = event.detail; // sortBy é a função pra ordenar
+    sortAttribute = attribute;
+    teams = sortBy(teams, attribute); //executa a ordenaçãp
   }
 
-  //simula um event enviado para a ordenação específica ser executada enquanto o inclui novas partidas
-  $: teams && sort({ detail: { sortBy: sortAttribute } });
+  //simula um event enviado para a ordenação específica a ser executada enquanto o usuário inclui novas partidas
+  $: teams && sort({ detail: { attribute: sortAttribute } });
 
 </script>
 

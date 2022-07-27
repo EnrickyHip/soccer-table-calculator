@@ -1,4 +1,4 @@
-export function shuffle<type>(array: type[]): type[] {
+export function shuffle<T>(array: T[]): T[] {
   const newArray = array;
 
   let currentIndex = newArray.length;
