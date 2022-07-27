@@ -31,34 +31,27 @@ export default class RoundRobinTournament extends Tournament {
   }
 
   private createMatches(rounds: RoundRobin): RoundList {
-    const roundsWithMatches = rounds.map((round: RoundRobinTeam[][]) => {
+    return rounds.map((round: RoundRobinTeam[][]) => {
       const shuffledRound = shuffle(round);
 
-      const newRound = shuffledRound.map((match: RoundRobinTeam[]) => {
-        const homeTeam = match[0];
-        const visitingTeam = match[1];
+      return shuffledRound.map((teams: RoundRobinTeam[]) => {
         const id = this.matches.length;
-
-        const newMatch = new Match(homeTeam, visitingTeam, id);
+        const newMatch = Match.create(teams, id);
         this.matches.push(newMatch);
         return newMatch;
       });
-
-      return newRound;
     });
-
-    return roundsWithMatches;
   }
 
   private static generateSecondHalf(firstHalf: RoundRobin): RoundRobin {
     const secondHalf = firstHalf.map((round) => {
-      const newRound = round.map((match) => {
+      return round.map((match) => {
         const newMatch = [...match];
         newMatch.reverse();
         return newMatch;
       });
-      return newRound;
     });
+
     return [...firstHalf, ...secondHalf];
   }
 

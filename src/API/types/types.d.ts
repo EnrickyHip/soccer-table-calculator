@@ -8,7 +8,7 @@ export type Goal = number | null;
 export type Result = 'win' | 'draw' | 'lose';
 
 export interface MatchesObject {
-  [key: number]: Match;
+  [id: number]: Match;
 }
 
 export interface Score {

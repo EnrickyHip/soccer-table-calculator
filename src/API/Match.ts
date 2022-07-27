@@ -13,6 +13,13 @@ export default class Match {
     this.awayTeam = awayTeam;
   }
 
+  static create(teams: Team[], id: number): Match {
+    const homeTeam = teams[0];
+    const visitingTeam = teams[1];
+    const newMatch = new Match(homeTeam, visitingTeam, id);
+    return newMatch;
+  }
+
   play(homeGoals: Goal, awayGoals: Goal): void {
     if (this.score.homeTeam === homeGoals && this.score.awayTeam === awayGoals) return;
 

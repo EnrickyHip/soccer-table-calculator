@@ -41,20 +41,6 @@ export default class RoundRobinTeam extends Team {
     this.updateInfo();
   }
 
-  private getSelfScore(match: Match): number[] {
-    const { score, homeTeam } = match;
-
-    const selfScore = homeTeam.name === this.name
-      ? score.homeTeam as number
-      : score.awayTeam as number;
-
-    const otherScore = homeTeam.name === this.name
-      ? score.awayTeam as number
-      : score.homeTeam as number;
-
-    return [selfScore, otherScore];
-  }
-
   getLastMatches(): Match[] {
     return this.matchesPlayedArray.slice(-5);
   }
@@ -71,25 +57,41 @@ export default class RoundRobinTeam extends Team {
     });
   }
 
+  private getSelfScore(match: Match): number[] {
+    const { score, homeTeam } = match;
+
+    const selfScore = homeTeam.name === this.name
+      ? score.homeTeam as number
+      : score.awayTeam as number;
+
+    const otherScore = homeTeam.name === this.name
+      ? score.awayTeam as number
+      : score.homeTeam as number;
+
+    return [selfScore, otherScore];
+  }
+
   private updateInfo(): void {
     this.resetValues();
 
-    const { matchesPlayedArray } = this;
-
-    matchesPlayedArray.forEach((match: Match) => {
-      const [selfScore, otherScore] = this.getSelfScore(match);
-
-      this.goals += selfScore;
-      this.counterGoals += otherScore;
-
-      if (selfScore > otherScore) {
-        this.wins += 1;
-      } else if (otherScore > selfScore) {
-        this.losses += 1;
-      } else {
-        this.draws += 1;
-      }
+    this.matchesPlayedArray.forEach((match: Match) => {
+      this.calculateMatch(match);
     });
+  }
+
+  private calculateMatch(match: Match): void {
+    const [selfScore, otherScore] = this.getSelfScore(match);
+
+    this.goals += selfScore;
+    this.counterGoals += otherScore;
+
+    if (selfScore > otherScore) {
+      this.wins += 1;
+    } else if (otherScore > selfScore) {
+      this.losses += 1;
+    } else {
+      this.draws += 1;
+    }
   }
 
   private resetValues(): void {
