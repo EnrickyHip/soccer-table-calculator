@@ -1,5 +1,5 @@
-import Match from '../Match';
-import RoundRobinTeam from '../RoundRobinTeam';
+import type Match from '../Match';
+import type RoundRobinTeam from '../RoundRobinTeam';
 
 export type Round = Match[];
 export type RoundList = Round[];
