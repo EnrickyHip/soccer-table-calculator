@@ -8,7 +8,7 @@ export default class RoundRobinTeam extends Team {
   public losses = 0;
   public goals = 0;
   public counterGoals = 0;
-  public position = 0;
+  private _position = 0;
 
   get points() {
     return this.wins * 3 + this.draws;
@@ -27,8 +27,31 @@ export default class RoundRobinTeam extends Team {
     return (this.points * 100) / (this.matchesPlayed * 3);
   }
 
+  get lastMatches(): Match[] {
+    return this.matchesPlayedArray.slice(-5);
+  }
+
+  get lastResults(): Result[] {
+    return this.lastMatches.map((match) => {
+      const { score } = match;
+      const [selfScore, otherScore] = score.getTeamScore(this);
+
+      if (selfScore > otherScore) return 'win';
+      if (otherScore > selfScore) return 'lose';
+      return 'draw';
+    });
+  }
+
   private get matchesPlayedArray(): Match[] {
     return Object.values(this.matchesPlayedObject);
+  }
+
+  get position() {
+    return this._position;
+  }
+
+  set position(value: number) {
+    this._position = value;
   }
 
   playMatch(match: Match): void {
@@ -38,49 +61,19 @@ export default class RoundRobinTeam extends Team {
       this.matchesPlayedObject[match.id] = match;
     }
 
-    this.updateInfo();
+    this.calculatePoints();
   }
 
-  getLastMatches(): Match[] {
-    return this.matchesPlayedArray.slice(-5);
-  }
-
-  getLastResults(): Result[] {
-    const lastMatches = this.getLastMatches();
-
-    return lastMatches.map((match) => {
-      const [selfScore, otherScore] = this.getSelfScore(match);
-
-      if (selfScore > otherScore) return 'win';
-      if (otherScore > selfScore) return 'lose';
-      return 'draw';
-    });
-  }
-
-  private getSelfScore(match: Match): number[] {
-    const { score, homeTeam } = match;
-
-    const selfScore = homeTeam.name === this.name
-      ? score.homeTeam as number
-      : score.awayTeam as number;
-
-    const otherScore = homeTeam.name === this.name
-      ? score.awayTeam as number
-      : score.homeTeam as number;
-
-    return [selfScore, otherScore];
-  }
-
-  private updateInfo(): void {
+  private calculatePoints(): void {
     this.resetValues();
-
     this.matchesPlayedArray.forEach((match: Match) => {
       this.calculateMatch(match);
     });
   }
 
   private calculateMatch(match: Match): void {
-    const [selfScore, otherScore] = this.getSelfScore(match);
+    const { score } = match;
+    const [selfScore, otherScore] = score.getTeamScore(this);
 
     this.goals += selfScore;
     this.counterGoals += otherScore;

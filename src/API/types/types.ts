@@ -9,7 +9,7 @@ export interface MatchesObject {
   [id: number]: Match;
 }
 
-export interface Score {
+export interface ScoreProtocol {
   homeTeam: Goal,
   awayTeam: Goal,
 }

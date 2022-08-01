@@ -1,6 +1,7 @@
 <script lang="ts">
   import type RoundRobinTeam from "src/API/RoundRobinTeam";
-  import Shield from '../Shield.svelte';
+
+import Shield from '../Shield.svelte';
   import { getStore } from "../../store/roundrobin";
 
   export let team: RoundRobinTeam;
@@ -30,7 +31,7 @@
 <td>{team.goalDifference}</td>
 <td id="percentage">{team.percentage.toFixed(2)}</td>
 <td id="last-matches">
-  {#each team.getLastResults() as result}
+  {#each team.lastResults as result}
     <span class={result}></span>
   {/each}
 </td>

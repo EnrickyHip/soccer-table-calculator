@@ -45,6 +45,7 @@ module.exports = {
     'no-plusplus': 'off',
     'import/no-extraneous-dependencies': 'off',
     'arrow-body-style': 'off',
+    'no-underscore-dangle': 'off',
   },
 
   settings: {
