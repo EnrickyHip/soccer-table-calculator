@@ -1,9 +1,8 @@
-import roundrobin from 'roundrobin';
-import { shuffle } from './utils/shuffle';
+import roundrobin, { type Rounds } from 'roundrobin-tournament-js';
 import Tournament from './Tournament';
 import Match from './Match';
 import type RoundRobinTeam from './RoundRobinTeam';
-import type { ClassificationInterface, RoundList, RoundRobin } from './types/types';
+import type { ClassificationInterface, RoundList } from './types/types';
 import Classification from './Classification';
 
 export default class RoundRobinTournament extends Tournament {
@@ -11,8 +10,8 @@ export default class RoundRobinTournament extends Tournament {
   public readonly rounds: RoundList;
   public readonly classification: Classification;
 
-  constructor(teams: RoundRobinTeam[], homeAway: boolean, classification: ClassificationInterface) {
-    super(teams, homeAway);
+  constructor(teams: RoundRobinTeam[], secondRound: boolean, classification: ClassificationInterface) {
+    super(teams, secondRound);
     this.teams = teams;
     this.classification = new Classification(classification);
     this.rounds = this.createRounds();
@@ -20,39 +19,19 @@ export default class RoundRobinTournament extends Tournament {
   }
 
   private createRounds(): RoundList {
-    let rounds: RoundRobin = roundrobin(this.teams.length, this.teams);
-    rounds = shuffle(rounds);
-
-    if (this.homeAway) {
-      rounds = RoundRobinTournament.generateSecondHalf(rounds);
-    }
-
+    const rounds = roundrobin(this.teams, this.secondRound);
     return this.createMatches(rounds);
   }
 
-  private createMatches(rounds: RoundRobin): RoundList {
+  private createMatches(rounds: Rounds<RoundRobinTeam>): RoundList {
     return rounds.map((round: RoundRobinTeam[][]) => {
-      const shuffledRound = shuffle(round);
-
-      return shuffledRound.map((teams: RoundRobinTeam[]) => {
+      return round.map((teams: RoundRobinTeam[]) => {
         const id = this.matches.length;
         const newMatch = Match.create(teams, id);
         this.matches.push(newMatch);
         return newMatch;
       });
     });
-  }
-
-  private static generateSecondHalf(firstHalf: RoundRobin): RoundRobin {
-    const secondHalf = firstHalf.map((round) => {
-      return round.map((match) => {
-        const newMatch = [...match];
-        newMatch.reverse();
-        return newMatch;
-      });
-    });
-
-    return [...firstHalf, ...secondHalf];
   }
 
   public sortTeams(): void {
