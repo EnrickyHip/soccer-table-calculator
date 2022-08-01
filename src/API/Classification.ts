@@ -1,4 +1,4 @@
-import type { ClassificationInterface } from './types/types';
+import type { ClassificationInterface } from './types';
 
 export default class Classification {
   private readonly classification: ClassificationInterface;

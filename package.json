@@ -32,6 +32,6 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"roundrobin-tournament-js": "^1.1.0"
+		"roundrobin-tournament-js": "^1.1.1"
 	}
 }

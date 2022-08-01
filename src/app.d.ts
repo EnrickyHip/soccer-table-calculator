@@ -4,7 +4,7 @@ import type { Subscriber, Unsubscriber } from 'svelte/store';
 import type Match from './API/Match';
 import type RoundRobinTeam from './API/RoundRobinTeam';
 import type RoundRobinTournament from './API/RoundRobinTournament';
-import type { ScoreProtocol } from './API/types/types';
+import type { ScoreProtocol } from './API/types';
 
 export interface SortEventDetail {
   detail: {

@@ -1,4 +1,4 @@
-import type { ClassificationInterface } from 'src/API/types/types';
+import type { ClassificationInterface } from 'src/API/types';
 import RoundRobinTournament from '../../../API/RoundRobinTournament';
 import RoundRobinTeam from '../../../API/RoundRobinTeam';
 
@@ -32,4 +32,4 @@ const classification: ClassificationInterface = {
   relegated: { min: 17, max: 20 },
 };
 
-export default new RoundRobinTournament(teams, true, classification);
+export default new RoundRobinTournament(teams, true, classification, ['wins', 'goalDifference', 'goals']);

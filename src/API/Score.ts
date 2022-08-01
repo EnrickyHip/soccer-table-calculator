@@ -1,6 +1,6 @@
 import type Match from './Match';
 import type Team from './Team';
-import type { Goal, ScoreProtocol } from './types/types';
+import type { Goal, ScoreProtocol } from './types';
 
 export default class Score implements ScoreProtocol {
   public homeTeam: Goal = null;

@@ -1,6 +1,6 @@
 import type Match from './Match';
 import Team from './Team';
-import type { Result } from './types/types';
+import type { Result } from './types';
 
 export default class RoundRobinTeam extends Team {
   public wins = 0;
@@ -10,7 +10,7 @@ export default class RoundRobinTeam extends Team {
   public counterGoals = 0;
   private _position = 0;
 
-  get points() {
+  get points(): number {
     return this.wins * 3 + this.draws;
   }
 
@@ -18,17 +18,17 @@ export default class RoundRobinTeam extends Team {
     return this.goals - this.counterGoals;
   }
 
-  get matchesPlayed(): number {
-    return this.matchesPlayedArray.length;
-  }
-
   get percentage(): number {
     if (this.points === 0) return 0;
     return (this.points * 100) / (this.matchesPlayed * 3);
   }
 
+  get matchesPlayed(): number {
+    return this.matches.length;
+  }
+
   get lastMatches(): Match[] {
-    return this.matchesPlayedArray.slice(-5);
+    return this.matches.slice(-5);
   }
 
   get lastResults(): Result[] {
@@ -42,16 +42,12 @@ export default class RoundRobinTeam extends Team {
     });
   }
 
-  private get matchesPlayedArray(): Match[] {
-    return Object.values(this.matchesPlayedObject);
-  }
-
   get position() {
     return this._position;
   }
 
-  set position(value: number) {
-    this._position = value;
+  setPosition(position: number) {
+    this._position = position;
   }
 
   playMatch(match: Match): void {
@@ -66,7 +62,7 @@ export default class RoundRobinTeam extends Team {
 
   private calculatePoints(): void {
     this.resetValues();
-    this.matchesPlayedArray.forEach((match: Match) => {
+    this.matches.forEach((match: Match) => {
       this.calculateMatch(match);
     });
   }

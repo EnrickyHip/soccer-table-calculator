@@ -1,6 +1,6 @@
 import Score from './Score';
 import type Team from './Team';
-import type { Goal } from './types/types';
+import type { Goal } from './types';
 
 export default class Match {
   public readonly id: number;

@@ -1,7 +1,7 @@
 import { writable } from 'svelte/store';
 import type RoundRobinTournament from 'src/API/RoundRobinTournament';
 import type { RoundRobinStore } from 'src/app';
-import type { ScoreProtocol } from 'src/API/types/types';
+import type { ScoreProtocol } from 'src/API/types';
 import type Match from '../../API/Match';
 
 let store: RoundRobinStore;
