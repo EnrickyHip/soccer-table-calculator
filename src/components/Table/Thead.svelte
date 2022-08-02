@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { SortableAttribute } from "src/API/types";
+  import { toggleClasses } from "../../utils/toggleClasses";
   import { getStore } from "../../store/roundrobin";
 
   const tournament = getStore();
@@ -8,18 +9,25 @@
   function sort(attribute: SortableAttribute, event: Event) {
     const target = event.target as HTMLTableCellElement;
     const oldSort = document.querySelector(".sort") as HTMLTableCellElement;
+    let status: "ascending" | "descending";
 
-    oldSort.classList.remove("sort");
-    target.classList.add("sort");
+    if (oldSort === target) {
+      status = toggleClasses(target, "ascending", "descending")
+    } else {
+      oldSort.classList.remove("sort", "ascending", "descending");
+      target.classList.add("sort", "descending");
+      status = "descending";
+    }
 
-    sortBy(attribute); //executa a ordenaçãp
+    const direction = status === "ascending" ? -1 : 1;
+    sortBy(attribute, direction);
   }
 
 </script>
 
 <thead>
   <tr>
-    <th class="sortable sort" on:click={(event) => sort("position", event)}>#</th>
+    <th class="sortable sort descending" on:click={(event) => sort("position", event)}>#</th>
     <th class="team">Team</th>
     <th class="sortable" on:click={(event) => sort("position", event)}>Pts</th>
     <th class="sortable" on:click={(event) => sort("matchesPlayed", event)}>M</th>

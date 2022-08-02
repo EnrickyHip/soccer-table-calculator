@@ -8,5 +8,5 @@ import type { ScoreProtocol, SortableAttribute } from './API/types';
 export interface RoundRobinStore {
   subscribe: (this: void, run: Subscriber<RoundRobinTournament>) => Unsubscriber;
   playMatch: (match: Match, score: ScoreProtocol) => void;
-  sortBy: (attribute: SortableAttribute) => void;
+  sortBy: (attribute: SortableAttribute, direction: 1 | -1) => void;
 }

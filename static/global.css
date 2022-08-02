@@ -74,3 +74,29 @@ button:focus {
 a:hover {
   text-decoration: none;
 }
+
+.sort.ascending, .sort.descending {
+  position: relative;
+}
+
+.sort.ascending::after {
+  color: #444;
+  font-family: 'Material Icons';
+  position: absolute;
+  font-size: 2rem;
+  bottom: 3.7rem;
+  left: 0;
+  right: 0;
+  content: "expand_less";
+}
+
+.sort.descending::after {
+  color: #444;
+  font-family: 'Material Icons';
+  position: absolute;
+  font-size: 2rem;
+  bottom: 3.7rem;
+  left: 0;
+  right: 0;
+  content: "expand_more"
+}

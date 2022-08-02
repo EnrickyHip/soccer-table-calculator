@@ -44,14 +44,14 @@ export default class RoundRobinTournament extends Tournament {
     });
   }
 
-  public sortTeams(attribute?: SortableAttribute): void {
+  public sortTeams(attribute?: SortableAttribute, direction?: 1 | -1): void {
     this.teams.sort(this.sort.positionSort);
     this.teams.forEach((team, index) => {
       team.setPosition(index + 1);
     });
 
     if (attribute !== undefined || this.sort.sortAttribute !== 'position') {
-      this.teams.sort(this.sort.customSort(attribute));
+      this.teams.sort(this.sort.customSort(attribute, direction));
     }
   }
 }

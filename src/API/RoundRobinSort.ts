@@ -10,22 +10,18 @@ export default class RoundRobinSort {
     this.tieBreaks = tieBreaks;
   }
 
-  public customSort = (attribute?: SortableAttribute) => {
+  public customSort = (attribute?: SortableAttribute, sentDirection?: 1 | -1) => {
     if (attribute) this.sortAttribute = attribute;
+    const direction = sentDirection || 1;
 
     return (team1: RoundRobinTeam, team2: RoundRobinTeam) => {
       if (attribute !== 'position') {
-        if (team1[this.sortAttribute] < team2[this.sortAttribute]) return 1;
-        if (team1[this.sortAttribute] > team2[this.sortAttribute]) return -1;
+        if (team1[this.sortAttribute] < team2[this.sortAttribute]) return 1 * direction;
+        if (team1[this.sortAttribute] > team2[this.sortAttribute]) return -1 * direction;
       }
 
-      if (this.sortAttribute === 'losses' || this.sortAttribute === 'counterGoals') {
-        if (team1.position < team2.position) return 1;
-        if (team1.position > team2.position) return -1;
-      } else {
-        if (team1.position > team2.position) return 1;
-        if (team1.position < team2.position) return -1;
-      }
+      if (team1.position > team2.position) return 1 * direction;
+      if (team1.position < team2.position) return -1 * direction;
       return 0;
     };
   };
@@ -34,7 +30,8 @@ export default class RoundRobinSort {
     if (team1.points < team2.points) return 1; // 1 changes the position
     if (team1.points > team2.points) return -1; // -1 still the same
 
-    for (let i = 0; i < this.tieBreaks.length; i++) { // ? não sei se isto está bem feito.
+    // ? não sei se isto está bem feito.
+    for (let i = 0; i < this.tieBreaks.length; i++) {
       const tieBreaker = this.tieBreaks[i];
 
       switch (tieBreaker) {

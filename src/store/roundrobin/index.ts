@@ -11,16 +11,15 @@ export function createRoundRobin(tournament: RoundRobinTournament): RoundRobinSt
 
   const playMatch = (match: Match, score: ScoreProtocol): void => {
     match.play(score.homeTeam, score.awayTeam);
-
     tournamentStore.update((storedTournament) => {
       storedTournament.sortTeams();
       return storedTournament;
     });
   };
 
-  const sortBy = (attribute: SortableAttribute) => {
+  const sortBy = (attribute: SortableAttribute, direction: 1 | -1) => {
     tournamentStore.update((storedTournament) => {
-      storedTournament.sortTeams(attribute);
+      storedTournament.sortTeams(attribute, direction);
       return storedTournament;
     });
   };
