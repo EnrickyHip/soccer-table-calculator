@@ -2,7 +2,9 @@ import roundrobin, { type Rounds } from 'roundrobin-tournament-js';
 import Tournament from './Tournament';
 import Match from './Match';
 import type RoundRobinTeam from './RoundRobinTeam';
-import type { ClassificationInterface, Round, TieBreak } from './types';
+import type {
+  ClassificationInterface, Round, SortableAttribute, TieBreak,
+} from './types';
 import Classification from './Classification';
 import RoundRobinSort from './RoundRobinSort';
 
@@ -42,10 +44,14 @@ export default class RoundRobinTournament extends Tournament {
     });
   }
 
-  public sortTeams(): void {
-    this.teams.sort(this.sort.compareTable);
+  public sortTeams(attribute?: SortableAttribute): void {
+    this.teams.sort(this.sort.positionSort);
     this.teams.forEach((team, index) => {
       team.setPosition(index + 1);
     });
+
+    if (attribute !== undefined || this.sort.sortAttribute !== 'position') {
+      this.teams.sort(this.sort.customSort(attribute));
+    }
   }
 }

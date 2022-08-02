@@ -1,15 +1,36 @@
 import type RoundRobinTeam from './RoundRobinTeam';
 import Team from './Team';
-import type { TieBreak } from './types';
+import type { SortableAttribute, TieBreak } from './types';
 
 export default class RoundRobinSort {
   private tieBreaks: TieBreak[];
+  public sortAttribute: keyof RoundRobinTeam = 'position';
 
   constructor(tieBreaks: TieBreak[]) {
     this.tieBreaks = tieBreaks;
   }
 
-  public compareTable = (team1: RoundRobinTeam, team2: RoundRobinTeam) => {
+  public customSort = (attribute?: SortableAttribute) => {
+    if (attribute) this.sortAttribute = attribute;
+
+    return (team1: RoundRobinTeam, team2: RoundRobinTeam) => {
+      if (attribute !== 'position') {
+        if (team1[this.sortAttribute] < team2[this.sortAttribute]) return 1;
+        if (team1[this.sortAttribute] > team2[this.sortAttribute]) return -1;
+      }
+
+      if (this.sortAttribute === 'losses' || this.sortAttribute === 'counterGoals') {
+        if (team1.position < team2.position) return 1;
+        if (team1.position > team2.position) return -1;
+      } else {
+        if (team1.position > team2.position) return 1;
+        if (team1.position < team2.position) return -1;
+      }
+      return 0;
+    };
+  };
+
+  public positionSort = (team1: RoundRobinTeam, team2: RoundRobinTeam) => {
     if (team1.points < team2.points) return 1; // 1 changes the position
     if (team1.points > team2.points) return -1; // -1 still the same
 

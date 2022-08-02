@@ -5,8 +5,8 @@ import type { Goal } from './types';
 export default class Match {
   public readonly id: number;
   public readonly homeTeam: Team;
-  public score = new Score(this);
   public readonly awayTeam: Team;
+  public score = new Score(this);
 
   constructor(homeTeam: Team, awayTeam: Team, id: number) {
     this.id = id;

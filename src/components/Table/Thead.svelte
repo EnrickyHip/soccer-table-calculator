@@ -1,17 +1,18 @@
 <script lang="ts">
-import type RoundRobinTeam from "src/API/RoundRobinTeam";
+  import type { SortableAttribute } from "src/API/types";
+  import { getStore } from "../../store/roundrobin";
 
-  import { createEventDispatcher } from "svelte/internal";
-  const dispatch = createEventDispatcher();
+  const tournament = getStore();
+  const { sortBy } = tournament;
 
-  function sort(attribute: keyof RoundRobinTeam, event: Event) {
+  function sort(attribute: SortableAttribute, event: Event) {
     const target = event.target as HTMLTableCellElement;
     const oldSort = document.querySelector(".sort") as HTMLTableCellElement;
 
     oldSort.classList.remove("sort");
     target.classList.add("sort");
 
-    dispatch("sort", { attribute });
+    sortBy(attribute); //executa a ordenaçãp
   }
 
 </script>
