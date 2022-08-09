@@ -1,9 +1,9 @@
 <script lang="ts">
-  import type Match from "../../API/Match";
   import GoalInput from "./GoalInput.svelte";
   import Icon from "../Icon.svelte";
   import Shield from "../Shield.svelte";
   import { getStore } from "../../store/roundrobin";
+  import type { Match } from "soccer-tournament";
 
   export let match: Match;
 

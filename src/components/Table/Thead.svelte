@@ -1,7 +1,7 @@
 <script lang="ts">
-  import type { SortableAttribute } from "src/API/types";
   import { toggleClasses } from "../../utils/toggleClasses";
   import { getStore } from "../../store/roundrobin";
+  import type { SortableAttribute } from "soccer-tournament";
 
   const tournament = getStore();
   const { sortBy } = tournament;

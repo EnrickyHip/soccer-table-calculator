@@ -1,5 +1,6 @@
 <script lang="ts">
-  import type Team from "../API/Team";
+  import type { Team } from "soccer-tournament";
+
   export let team: Team;
   export let classes = "";
 </script>

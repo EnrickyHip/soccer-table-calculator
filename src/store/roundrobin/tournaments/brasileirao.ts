@@ -1,6 +1,4 @@
-import type { ClassificationInterface } from 'src/API/types';
-import RoundRobinTournament from '../../../API/RoundRobinTournament';
-import RoundRobinTeam from '../../../API/RoundRobinTeam';
+import { RoundRobinTeam, RoundRobinTournament, tieBreaks } from 'soccer-tournament';
 
 const teams = [
   new RoundRobinTeam('Avaí', 'brasileirao/avai.png', 1),
@@ -25,11 +23,11 @@ const teams = [
   new RoundRobinTeam('Ceará', 'brasileirao/ceara.png', 20),
 ];
 
-const classification: ClassificationInterface = {
+const classification = {
   classified1: { min: 2, max: 4 },
   classified2: { min: 5, max: 6 },
   classified3: { min: 7, max: 12 },
   relegated: { min: 17, max: 20 },
 };
 
-export default new RoundRobinTournament(teams, true, classification, ['wins', 'goalDifference', 'goals']);
+export default new RoundRobinTournament(teams, true, classification, [tieBreaks.wins, tieBreaks.goals, tieBreaks.goalDifference]);

@@ -2,10 +2,10 @@
   import Button from "../Button.svelte";
   import Icon from "../Icon.svelte";
   import { createEventDispatcher } from "svelte/internal"
-  import type { RoundList } from "../../API/types/types";;
+  import type { Round } from "soccer-tournament";
 
   export let roundNumber: number;
-  export let rounds: RoundList;
+  export let rounds: Round[];
 
   const dispatch = createEventDispatcher();
   const prevRound = () => dispatch("prev-round");

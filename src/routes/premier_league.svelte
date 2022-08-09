@@ -6,7 +6,7 @@
   import premierLeague from "../store/roundrobin/tournaments/premierLeague";
   import RoundRobinContainer from '../components/RoundRobinContainer.svelte';
 
-  let premierLeagueStore = createRoundRobin(premierLeague);
+  const premierLeagueStore = createRoundRobin(premierLeague);
 </script>
 
 <svelte:head>

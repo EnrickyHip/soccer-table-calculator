@@ -1,10 +1,11 @@
 <script lang="ts">
-  import type { RoundList } from "../../API/types";;
+import type { Round } from "soccer-tournament";
+
   import Matches from "./Matches.svelte";
   import RoundsHeader from "./RoundsHeader.svelte";
 
   let roundNumber = 1;
-  export let rounds: RoundList;
+  export let rounds: Round[];
 
   function prevRound(): void {
     if (roundNumber === 1) return;

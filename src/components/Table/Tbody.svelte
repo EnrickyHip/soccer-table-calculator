@@ -1,7 +1,7 @@
 <script lang="ts">
-    import type RoundRobinTeam from '../../API/RoundRobinTeam';
-    import Team from './Team.svelte';
+    import TeamContainer from './TeamContainer.svelte';
     import { flip } from 'svelte/animate';
+    import type { RoundRobinTeam } from 'soccer-tournament';
 
     export let teams: RoundRobinTeam[];
 </script>
@@ -9,7 +9,7 @@
 <tbody>
   {#each teams as team (team.id)}
     <tr animate:flip={{duration: 600}}>
-      <Team {team}/>
+      <TeamContainer {team}/>
     </tr>
   {/each}
 </tbody>

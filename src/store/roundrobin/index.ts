@@ -1,18 +1,19 @@
-import { writable } from 'svelte/store';
-import type RoundRobinTournament from 'src/API/RoundRobinTournament';
+import type {
+  Match, RoundRobinTournament, Score, SortableAttribute,
+} from 'soccer-tournament';
 import type { RoundRobinStore } from 'src/app';
-import type { ScoreProtocol, SortableAttribute } from 'src/API/types';
-import type Match from '../../API/Match';
+import { writable } from 'svelte/store';
 
 let store: RoundRobinStore;
 
 export function createRoundRobin(tournament: RoundRobinTournament): RoundRobinStore {
   const tournamentStore = writable(tournament);
 
-  const playMatch = (match: Match, score: ScoreProtocol): void => {
+  const playMatch = (match: Match, score: Score): void => {
     match.play(score.homeTeam, score.awayTeam);
     tournamentStore.update((storedTournament) => {
       storedTournament.sortTeams();
+      console.log(storedTournament.teams);
       return storedTournament;
     });
   };

@@ -1,7 +1,8 @@
 {
 	"extends": "./.svelte-kit/tsconfig.json",
 	"compilerOptions": {
-		"strict": true
+		"strict": true,
+    "importsNotUsedAsValues": "remove"
 	},
 
 	"include": ["src/**/*"],

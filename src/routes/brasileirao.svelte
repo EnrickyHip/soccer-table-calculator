@@ -6,7 +6,7 @@
   import brasileirao from "../store/roundrobin/tournaments/brasileirao";
   import RoundRobinContainer from '../components/RoundRobinContainer.svelte';
 
-  let brasileiraoStore = createRoundRobin(brasileirao);
+  const brasileiraoStore = createRoundRobin(brasileirao);
 </script>
 
 <svelte:head>

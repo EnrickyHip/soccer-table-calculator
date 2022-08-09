@@ -1,8 +1,8 @@
 <script lang="ts">
-  import type { RoundList } from "../../API/types";;
+  import type { Round } from "soccer-tournament";
   import Match from "./Match.svelte";
 
-  export let rounds: RoundList;
+  export let rounds: Round[];
   export let roundNumber: number;
 </script>
 

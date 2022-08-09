@@ -1,16 +1,22 @@
 <script lang="ts">
-  import type RoundRobinTeam from "src/API/RoundRobinTeam";
 
-import Shield from '../Shield.svelte';
+  import Shield from '../Shield.svelte';
   import { getStore } from "../../store/roundrobin";
+  import { RoundRobinTeam } from 'soccer-tournament';
 
   export let team: RoundRobinTeam;
 
   const tournament = getStore();
   const { classification } = $tournament;
+
+  function getClassification(team: RoundRobinTeam): string {
+    const classified = classification.get(team);
+    return classified ? classified : "";
+  }
+
 </script>
 
-<td class={classification.get(team.position)}>
+<td class={getClassification(team)}>
   {team.position}
 </td>
 
