@@ -30,4 +30,4 @@ const classification = {
   relegated: { min: 17, max: 20 },
 };
 
-export default new RoundRobinTournament(teams, true, classification, [tieBreaks.wins, tieBreaks.goals, tieBreaks.goalDifference]);
+export default new RoundRobinTournament(teams, true, classification, [tieBreaks.wins, tieBreaks.goalDifference, tieBreaks.goals]);

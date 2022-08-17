@@ -8,7 +8,7 @@
 
 <tbody>
   {#each teams as team (team.id)}
-    <tr animate:flip={{duration: 600}}>
+    <tr animate:flip={{duration: 700}}>
       <TeamContainer {team}/>
     </tr>
   {/each}

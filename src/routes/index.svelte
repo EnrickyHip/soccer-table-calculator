@@ -20,6 +20,10 @@
   <TournamentButton alt="Brasileirão" href="/brasileirao" logo="/images/brasileirao.png">
     Brasileirão
   </TournamentButton>
+
+  <TournamentButton alt="Brasileirão" href="/brasileirao_serie_b" logo="/images/brasileirao_serie_b.png">
+    Brasileirão Série B
+  </TournamentButton>
 </div>
 
 <style>
