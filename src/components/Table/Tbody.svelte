@@ -1,9 +1,9 @@
 <script lang="ts">
-    import TeamContainer from './TeamContainer.svelte';
-    import { flip } from 'svelte/animate';
-    import type { RoundRobinTeam } from 'soccer-tournament';
+  import TeamContainer from './TeamContainer.svelte';
+  import { flip } from 'svelte/animate';
+  import type { RoundRobinTeam } from 'soccer-tournament';
 
-    export let teams: RoundRobinTeam[];
+  export let teams: RoundRobinTeam[];
 </script>
 
 <tbody>

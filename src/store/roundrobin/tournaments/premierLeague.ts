@@ -1,4 +1,5 @@
 import { RoundRobinTeam, RoundRobinTournament, tieBreaks } from 'soccer-tournament';
+import type { ClassificationNames } from 'src/app';
 
 const teams = [
   new RoundRobinTeam('Liverpool', 'premier_league/liverpool.png', 1),
@@ -28,6 +29,13 @@ const classification = {
   classified2: { min: 5, max: 6 },
   classified3: { min: 7, max: 7 },
   relegated: { min: 18, max: 20 },
+};
+
+export const classificationNames: ClassificationNames = {
+  classified1: 'Champions League',
+  classified2: 'Europe League',
+  classified3: 'Conference League',
+  relegated: 'Relegated',
 };
 
 export default new RoundRobinTournament(teams, true, classification, [tieBreaks.goalDifference, tieBreaks.goals, tieBreaks.headToHead]);

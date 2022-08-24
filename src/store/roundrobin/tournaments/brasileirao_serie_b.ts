@@ -1,4 +1,5 @@
 import { RoundRobinTeam, RoundRobinTournament, tieBreaks } from 'soccer-tournament';
+import type { ClassificationNames } from 'src/app';
 
 const teams = [
   new RoundRobinTeam('Vasco', 'brasileirao-serie-b/vasco.png', 1),
@@ -26,6 +27,11 @@ const teams = [
 const classification = {
   classified1: { min: 2, max: 4 },
   relegated: { min: 17, max: 20 },
+};
+
+export const classificationNames: ClassificationNames = {
+  classified1: 'Série A',
+  relegated: 'Relegated',
 };
 
 export default new RoundRobinTournament(teams, true, classification, [tieBreaks.wins, tieBreaks.goalDifference, tieBreaks.goals]);

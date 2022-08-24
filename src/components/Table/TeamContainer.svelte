@@ -10,7 +10,7 @@
   const { classification } = $tournament;
 
   function getClassification(team: RoundRobinTeam): string {
-    const classified = classification.get(team);
+    const classified = classification.getTeamClassification(team);
     return classified ? classified : "";
   }
 
@@ -78,30 +78,6 @@
 
   .first {
     background-color: rgb(47, 189, 189);
-    color: white;
-  }
-
-  .classified1 {
-    background-color: rgb(69, 202, 113);
-    color: white;
-  }
-  .classified2 {
-    background-color: rgb(21, 134, 59);
-    color: white;
-  }
-
-  .classified3 {
-    background-color: rgb(126, 21, 44);
-    color: white;
-  }
-
-  .playoff {
-    background-color: rgb(160, 0, 0);
-    color: white;
-  }
-
-  .relegated {
-    background-color: rgb(212, 7, 7);
     color: white;
   }
 

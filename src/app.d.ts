@@ -10,3 +10,11 @@ export interface RoundRobinStore {
   playMatch: (match: Match, score: Score) => void;
   sortBy: (attribute: SortableAttribute, direction: 1 | -1) => void;
 }
+
+export interface ClassificationNames {
+  classified1?: string,
+  classified2?: string,
+  classified3?: string,
+  playoff?: string,
+  relegated?: string,
+}

@@ -3,7 +3,7 @@
   import Title from '../components/Title.svelte';
   import { createRoundRobin } from '../store/roundrobin';
   import Rounds from '../components/Rounds/Rounds.svelte';
-  import premierLeague from "../store/roundrobin/tournaments/premierLeague";
+  import premierLeague, { classificationNames } from "../store/roundrobin/tournaments/premierLeague";
   import RoundRobinContainer from '../components/RoundRobinContainer.svelte';
 
   const premierLeagueStore = createRoundRobin(premierLeague);
@@ -18,6 +18,6 @@
 </Title>
 
 <RoundRobinContainer>
-  <Table teams={$premierLeagueStore.teams} />
+  <Table {classificationNames} teams={$premierLeagueStore.teams} />
   <Rounds rounds={$premierLeagueStore.rounds} />
 </RoundRobinContainer>
