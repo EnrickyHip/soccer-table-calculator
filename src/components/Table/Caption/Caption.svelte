@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { ClassificationNames } from "src/app";
   import Attributes from "./Attributes.svelte";
-import Classification from "./Classification.svelte";
+  import Classification from "./Classification.svelte";
 
   export let classificationNames: ClassificationNames;
 </script>

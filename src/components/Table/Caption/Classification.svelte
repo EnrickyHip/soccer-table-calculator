@@ -1,7 +1,5 @@
 <script lang="ts">
-import type { ClassificationNames } from "src/app";
-
-
+  import type { ClassificationNames } from "src/app";
   export let classificationNames: ClassificationNames;
   const classificationKeys = Object.keys(classificationNames) as (keyof ClassificationNames)[];
 </script>

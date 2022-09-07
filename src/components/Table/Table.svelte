@@ -1,5 +1,4 @@
 <script lang="ts">
-
   import Thead from './Thead.svelte';
   import Tbody from './Tbody.svelte';
   import { RoundRobinTeam } from 'soccer-tournament';
@@ -8,7 +7,6 @@
 
   export let classificationNames: ClassificationNames;
   export let teams: RoundRobinTeam[];
-
 </script>
 
 <div>

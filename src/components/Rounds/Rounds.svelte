@@ -1,6 +1,5 @@
 <script lang="ts">
-import type { Round } from "soccer-tournament";
-
+  import type { Round } from "soccer-tournament";
   import Matches from "./Matches.svelte";
   import RoundsHeader from "./RoundsHeader.svelte";
 

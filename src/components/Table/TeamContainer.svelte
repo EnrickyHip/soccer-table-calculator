@@ -1,5 +1,4 @@
 <script lang="ts">
-
   import Shield from '../Shield.svelte';
   import { getStore } from "../../store/roundrobin";
   import { RoundRobinTeam } from 'soccer-tournament';
@@ -13,7 +12,6 @@
     const classified = classification.getTeamClassification(team);
     return classified ? classified : "";
   }
-
 </script>
 
 <td class={getClassification(team)}>
