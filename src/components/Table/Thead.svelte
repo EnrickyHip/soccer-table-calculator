@@ -19,8 +19,8 @@
       status = "descending";
     }
 
-    const direction = status === "ascending" ? -1 : 1;
-    sortBy(attribute, direction);
+    const reverse = status === "ascending";
+    sortBy(attribute, reverse);
   }
 
 </script>

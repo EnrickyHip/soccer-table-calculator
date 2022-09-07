@@ -14,9 +14,9 @@ export function createRoundRobin(tournament: RoundRobinTournament): RoundRobinSt
     tournamentStore.update((storedTournament) => storedTournament);
   };
 
-  const sortBy = (attribute: SortableAttribute, direction: 1 | -1) => {
+  const sortBy = (attribute: SortableAttribute, reverse = false) => {
     tournamentStore.update((storedTournament) => {
-      storedTournament.sortTeams(attribute, direction);
+      storedTournament.sortTeams(attribute, reverse);
       return storedTournament;
     });
   };
