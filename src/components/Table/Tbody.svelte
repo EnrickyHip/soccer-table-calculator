@@ -16,7 +16,7 @@
 
 <style>
 
-  tr:nth-child(2n-1) {
+  tr:nth-child(2n-2) {
     background-color: rgb(245, 245, 245);
   }
 
